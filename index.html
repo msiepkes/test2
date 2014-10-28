@@ -1,6 +1,39 @@
+<!DOCTYPE html>
 <html>
-<head></head>
-<body>
-Hoi Dennis!
+<head>
+    <title></title>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:100,300,500,600' rel='stylesheet' type='text/css'> 
+    <link href="styles/pages.css" rel="stylesheet">    
+	<script type="text/javascript" src="scripts/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easypiechart.js"></script>
+    <script type="text/javascript" src="scripts/jquery.sparkline.min.js"></script>     
+</head>
+<body>    
+	<div id="alertbg" class="alertwindowbg"></div>
+	<div id="alert" class="alertwindow">
+		<div class="question"><img src="images/test.png" align="left"><span class="vraag">Op de website van test.com probeert iemand in te loggen met u gegevens, klopt dit?</span></div>
+        <img class="timer" src="images/timer.gif" />
+        <a href="#" id="BtnTrue" class="mybutton" style="height: 50px; font-size: 36px;">Ja</a>
+		<a href="#" id="BtnFalse" class="mybutton" style="height: 27px;">Nee</a>
+	</div>
+	
+    <a href="views/settings.html" data-role="tab" id="BtnAccount"><i class="fa fa-user"></i></a>
+    <a href="views/statistieken.html" data-role="tab" id="BtnChart"><i class="fa fa-area-chart"></i></a>
+    <div id="username" class="name">Nieuwe gebruiker</div>
+    <div id="welcometext" class="welcome">Welkom</div>
+    <div class="bar"></div>
+    <div id="newuser" class="inleiding">U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken.</div> 
+    <div id="existinguser" class="inleiding">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></div> 
+    <a href="views/aanmelden.html" data-role="tab" id="BtnRegister" class="mybutton" style="height: 30px;">Aanmelden</a>
+    
+    <!--
+    <br><br>
+    <div id="status">
+        ssss
+    </div>
+    -->
+</div>
 </body>
 </html>
