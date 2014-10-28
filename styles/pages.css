@@ -72,8 +72,14 @@
 	font-weight: 500;
 	margin-top: -10px;
 }
-body {
-	background-color: #4b576d;
+.ui-overlay-a, .ui-page-theme-a {
+	background-color: #4b576d !important;
+	font-family: 'Open Sans Condensed', sans-serif;
+	text-shadow: none;
+	color: #fff;
+} 
+.ui-footer {
+left: 0px; right: 0px; bottom: 0px; position: fixed;
 }
 A.mybutton {
     display: block;
