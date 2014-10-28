@@ -17,6 +17,54 @@
         Hardeep Shoker 
     </author>
 
+
+
+<platform name="android">
+    <!-- you can use any density that exists in the Android project -->
+    <splash src="images/inloggen.png" density="land-hdpi"/>
+    <splash src="images/inloggen.png" density="land-ldpi"/>
+    <splash src="images/inloggen.png" density="land-mdpi"/>
+    <splash src="images/inloggen.png" density="land-xhdpi"/>
+
+    <splash src="images/inloggen.png" density="port-hdpi"/>
+    <splash src="images/inloggen.png" density="port-ldpi"/>
+    <splash src="images/inloggen.png" density="port-mdpi"/>
+    <splash src="images/inloggen.png" density="port-xhdpi"/>
+</platform>
+
+<platform name="ios">
+    <!-- images are determined by width and height. The following are supported -->
+    <splash src="images/inloggen.png" width="320" height="480"/>
+    <splash src="images/inloggen.png" width="640" height="960"/>
+    <splash src="images/inloggen.png" width="768" height="1024"/>
+    <splash src="images/inloggen.png" width="1536" height="2048"/>
+    <splash src="images/inloggen.png" width="1024" height="768"/>
+    <splash src="images/inloggen.png" width="2048" height="1536"/>
+    <splash src="images/inloggen.png" width="640" height="1136"/>
+    <splash src="images/inloggen.png" width="750" height="1334"/>
+    <splash src="images/inloggen.png" width="1242" height="2208"/>
+    <splash src="images/inloggen.png" width="2208" height="1242"/>
+</platform>
+
+<platform name="wp8">
+    <!-- images are determined by width and height. The following are supported -->
+    <splash src="images/inloggen.png" width="768" height="1280"/>
+</platform>
+
+<platform name="windows8">
+    <!-- images are determined by width and height. The following are supported -->
+    <splash src="images/inloggen.png" width="620" height="300"/>
+</platform>
+
+<platform name="blackberry10">
+    <!-- Add a rim:splash element for each resolution and locale you wish -->
+    <!-- http://developer.blackberry.com/html5/documentation/rim_splash_element.html -->
+    <rim:splash src="images/inloggen.png"/>
+</platform>
+
+<preference name="SplashScreenDelay" value="10000" />
+
+
 	<icon src="icon.png" />
 	<gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
 	<gap:plugin name="nl.x-services.plugins.flashlight" version="2.0.1" />
