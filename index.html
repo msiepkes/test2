@@ -22,8 +22,15 @@ function onDeviceReady() {
 	navigator.vibrate([500, 200, 500]);
 	alert('test');
 
-window.plugin.notification.local.add({ message: 'Great app!' });
+window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
   // ...
+
+
+window.plugins.uniqueDeviceID.get(function(uuid) {
+	alert(uuid);
+}, fail);
+
+
 } 
 </script>
 
