@@ -1,4 +1,4 @@
-//var db = window.sqlitePlugin.openDatabase("recheck", "1.0", "recheck", -1);
+var db = window.sqlitePlugin.openDatabase("recheck", "1.0", "recheck", -1);
 var _t = null; 
 var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 var Valid = null;
@@ -19,6 +19,7 @@ alert('0');
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS accesslog (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, client TEXT NOT NULL DEFAULT, datum DATETIME NOT NULL DEFAULT, geweigerd BIT NOT NULL DEFAULT 0, telaat BIT NOT NULL DEFAULT 0, toegestaan BIT NOT NULL DEFAULT 0)');
 	  });
 	   
+alert('00'); 
 	navigator.vibrate([500, 200, 500]);
  
  
