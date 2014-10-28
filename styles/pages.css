@@ -21,12 +21,14 @@
 	padding: 0px !important;
 }
 .ui-header H1 {
+	width: 80%;
 	color: #fff !important;
 	text-transform: uppercase !important;
 	font-size: 22px !important;
 	font-weight: 200 !important;
 }
 .ui-header H3 {
+	width: 80%;
 	font-size: 16px !important;
 	text-transform: none !important;
 	color: #9499a6 !important;

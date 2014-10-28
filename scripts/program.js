@@ -1,4 +1,4 @@
-var db = window.sqlitePlugin.openDatabase("recheck.db", "1.0", "recheck", 2 * 1024 * 1024);
+var db = window.sqlitePlugin.openDatabase("recheck", "1.0", "recheck", -1);
 var _t = null; 
 var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 var Valid = null;
@@ -125,9 +125,9 @@ $(document).on("pageshow","#home",function(){
 					$('#BtnChart').hide();
 					$('#username').text('Nieuwe gebruiker');
 					$('#welcometext').text('Welkom');
-					$('#BtnRegisterNewUser').show();
 					$('#newuser').show();
 					$('#existinguser').hide(); 
+					$('#BtnRegisterNewUser').show();
 				  } 
               });
          });
