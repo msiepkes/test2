@@ -9,7 +9,7 @@
 <script src="cordova.js"></script>
 <script src="barcodescanner.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script
+<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.easing.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.easypiechart.js"></script>
     <script type="text/javascript" src="scripts/jquery.sparkline.min.js"></script>     
@@ -36,6 +36,38 @@ window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true }
 
 </head>
 <body>    
+
+<div data-role="page" id="pageone">
+  <div data-role="header">
+    <h1>Welcome To My Homepage</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+    <p>Welcome! If you click on the link below, it will take you to Page Two.</p>
+    <a href="#pagetwo">Go to Page Two</a>
+  </div>
+
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div> 
+
+<div data-role="page" id="pagetwo">
+  <div data-role="header">
+    <h1>Welcome To My Homepage</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+    <p>This is Page Two. If you click on the link below, it will take you to Page One.</p>
+    <a href="#pageone">Go to Page One</a>
+  </div>
+
+  <div data-role="footer">
+    <h1>Footer Text</h1>
+  </div>
+</div> 
+
+<!--
 	<div id="alertbg" class="alertwindowbg"></div>
 	<div id="alert" class="alertwindow">
 		<div class="question"><img src="images/test.png" align="left"><span class="vraag">Op de website van test.com probeert iemand in te loggen met u gegevens, klopt dit?</span></div>
@@ -53,7 +85,7 @@ window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true }
     <div id="existinguser" class="inleiding">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></div> 
     <a href="views/aanmelden.html" data-role="tab" id="BtnRegister" class="mybutton" style="height: 30px;">Aanmelden</a>
     
-    <!--
+     
     <br><br>
     <div id="status">
         ssss
