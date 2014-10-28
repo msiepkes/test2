@@ -12,13 +12,13 @@ document.addEventListener("deviceready", function() {
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS gebruiker (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, firstname TEXT NOT NULL DEFAULT, lastname TEXT NOT NULL DEFAULT, code TEXT NOT NULL DEFAULT, email TEXT NOT NULL DEFAULT)');
 	
 		  tx.executeSql("INSERT INTO gebruiker (firstname, lastname, code, email) VALUES (?,?,?,?)", ['Martin', 'Siepkes', '7aafaa3f-ff25-4a5a-91c6-753f30a5a03b', 'martin.siepkes@quicknet.nl'], function (tx, res) {}, function(e) {
-				///alert("ERROR: " + e.message);
+				alert("ERROR: " + e.message);
 		  });
 	
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS accesslog (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, client TEXT NOT NULL DEFAULT, datum DATETIME NOT NULL DEFAULT, geweigerd BIT NOT NULL DEFAULT 0, telaat BIT NOT NULL DEFAULT 0, toegestaan BIT NOT NULL DEFAULT 0)');
 	  });
 	   
-	//navigator.vibrate([500, 200, 500]);
+	navigator.vibrate([500, 200, 500]);
 	//alert('test');
 	//window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
 }, false);
