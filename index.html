@@ -13,10 +13,18 @@
     <script type="text/javascript" src="scripts/jquery.sparkline.min.js"></script>     
 
 <script>
-window.setTimeout(function() {
+// Wait for Cordova to load
+document.addEventListener("deviceready", onDeviceReady, false);
+
+// Cordova is ready
+function onDeviceReady() {
+  var db = window.sqlitePlugin.openDatabase({name: "my.db"});
+	navigator.vibrate([500, 200, 500]);
 	alert('test');
-	navigator.vibrate([50, 100, 150]);
-}, 1000);
+
+window.plugin.notification.local.add({ message: 'Great app!' });
+  // ...
+} 
 </script>
 
 
