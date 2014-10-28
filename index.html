@@ -4,10 +4,12 @@
     <title></title>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:100,300,500,600' rel='stylesheet' type='text/css'> 
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
     <link href="styles/pages.css" rel="stylesheet">    
 <script src="cordova.js"></script>
 <script src="barcodescanner.js"></script>
-	<script type="text/javascript" src="scripts/jquery-1.6.4.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script
     <script type="text/javascript" src="scripts/jquery.easing.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.easypiechart.js"></script>
     <script type="text/javascript" src="scripts/jquery.sparkline.min.js"></script>     
@@ -26,9 +28,6 @@ window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true }
   // ...
 
 
-window.plugins.uniqueDeviceID.get(function(uuid) {
-	alert(uuid);
-}, fail);
 
 
 } 
