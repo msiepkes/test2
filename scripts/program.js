@@ -7,7 +7,8 @@ var _url = 'http://64sws.symsys.nl/signalr';
 var _questionid = null;
 
 
-document.addEventListener("deviceready", function() {     
+document.addEventListener("deviceready", function() {    
+alert('0'); 
 	  db.transaction(function(tx) { 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS gebruiker (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, firstname TEXT NOT NULL DEFAULT, lastname TEXT NOT NULL DEFAULT, code TEXT NOT NULL DEFAULT, email TEXT NOT NULL DEFAULT)');
 	
@@ -19,9 +20,6 @@ document.addEventListener("deviceready", function() {
 	  });
 	   
 	navigator.vibrate([500, 200, 500]);
-	//alert('test');
-	//window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
-}, false);
  
  
 $(document).on("pageshow","#home",function(){
@@ -143,6 +141,9 @@ alert('7');
 		$('#home').attr('isLoaded', true);
 	}
 	
+	//alert('test');
+	//window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
+}, false);
 	
     function existingUser() { 
 alert('8');
