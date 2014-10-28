@@ -2,48 +2,42 @@
 <html>
 <head>
     <title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:100,300,500,600' rel='stylesheet' type='text/css'> 
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
-    <link href="styles/pages.css" rel="stylesheet">    
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:100,300,500,600"> 
+	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/pages.css">    
 
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.easing.min.js"></script>
     <script type="text/javascript" src="scripts/jquery.easypiechart.js"></script>
     <script type="text/javascript" src="scripts/jquery.sparkline.min.js"></script>    
-<script src="cordova.js"></script>
-<script>
-// Wait for Cordova to load
-document.addEventListener("deviceready", onDeviceReady, false);
-
-// Cordova is ready
-function onDeviceReady() {
-  var db = window.sqlitePlugin.openDatabase({name: "my.db"});
-	navigator.vibrate([500, 200, 500]);
-	alert('test');
-
-window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
-  // ...
-
-
-
-$(document).on("pagebeforeshow","#pagetwo",function(){
-  alert("pagebeforeshow event fired - pagetwo is about to be shown");
-});
-$(document).on("pageshow","#pagetwo",function(){
-  alert("pageshow event fired - pagetwo is now shown");
-});
-$(document).on("pagebeforehide","#pagetwo",function(){
-  alert("pagebeforehide event fired - pagetwo is about to be hidden");
-});
-$(document).on("pagehide","#pagetwo",function(){
-  alert("pagehide event fired - pagetwo is now hidden");
-});
-
-} 
-</script>
+	<script src="cordova.js"></script>
+	<script>
+		// Wait for Cordova to load
+		document.addEventListener("deviceready", function() { 
+			var db = window.sqlitePlugin.openDatabase({name: "my.db"});
+			navigator.vibrate([500, 200, 500]);
+			alert('test');
+			
+			window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
+		}, false);
+		 
+		 
+		$(document).on("pagebeforeshow","#pagetwo",function(){
+			alert("pagebeforeshow event fired - pagetwo is about to be shown");
+		});
+		$(document).on("pageshow","#pagetwo",function(){
+			alert("pageshow event fired - pagetwo is now shown");
+		});
+		$(document).on("pagebeforehide","#pagetwo",function(){
+			alert("pagebeforehide event fired - pagetwo is about to be hidden");
+		});
+		$(document).on("pagehide","#pagetwo",function(){
+			alert("pagehide event fired - pagetwo is now hidden");
+		});
+	</script>
 
 
 </head>
