@@ -63,34 +63,44 @@
 </head>
 <body>    
 
-<div data-role="page" id="pageone">
-  <div data-role="header">
-    <h1>Welcome To My Homepage</h1>
+<div data-role="page" id="home">
+  <div data-role="header">	    
+    <a href="#settings" class="iconbutton" data-transition="slide" id="BtnAccount"><i class="fa fa-user"></i></a>
+    <a href="#statistieken" class="iconbutton" data-transition="slide" id="BtnChart"><i class="fa fa-area-chart"></i></a>
+    <h1>Martin Siepkes</h1>
+	<h3>Welkom terug</h3>
   </div>
 
-  <div data-role="main" class="ui-content">
-    <p>Welcome! If you click on the link below, it will take you to Page Two.</p>
-    <a href="#pagetwo" data-transition="slide">Go to Page Two</a>
-    <a href="#pagethree">Open dialog</a>
-  </div>
-
-  <div data-role="footer">
-    <h1>Footer Text</h1>
-  </div>
+  <div data-role="main" class="ui-content">	
+  <div class="bar"></div>    
+    <p id="existinguser">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></p> 
+    <p id="newuser">U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken</p>
+	<a href="#aanmelden" data-transition="slide" id="BtnRegister" class="mybutton" style="height: 30px; line-height: 30px;">Aanmelden</a>
+  </div> 
 </div> 
 
-<div data-role="page" id="pagetwo">
-  <div data-role="header">
-    <h1>Welcome To My Homepage</h1>
+
+
+<div data-role="page" id="aanmelden">
+  <div data-role="header">    
+    <a href="#home" class="iconbutton" id="BtnHome" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
+    <h1>Aanmelden</h1>
   </div>
 
   <div data-role="main" class="ui-content">
     <p>This is Page Two. If you click on the link below, it will take you to Page One.</p>
-    <a href="#pageone" data-transition="slide" data-direction="reverse">Go to Page One</a>
-  </div>
+      <div class="registerform">
+		<label>Voornaam:</label><input id="firstname" type="text" maxlength="250" /><br />
+		<label>Achternaam:</label><input id="lastname" type="text" maxlength="250" /><br />
+		<label>E-mail adres:</label><input id="email" type="email" maxlength="250" /><br /><br />
+		<div class="bar"></div>
+		
+		<label style="cursor: pointer"><input id="checkbox" type="checkbox" />Ik heb een aanmeldcode</label> 
+		<label>Aanmeldcode:</label><input id="aanmeldcode" maxlength="6" type="text" disabled="disabled" style="text-align: center; font-weight: 600; font-size: 20px; line-height: 10px; height: 28px; letter-spacing: 2px;" /><br />
+	</div> <br /> 
+    <a href="views/aanmelden.html" data-role="tab" id="BtnRegisterForm" class="mybutton" style="height: 30px;">Verstuur</a> 
 
-  <div data-role="footer">
-    <h1>Footer Text</h1>
+    <a href="#home" data-transition="slide" data-direction="reverse">Go to Page One</a>
   </div>
 </div> 
 
