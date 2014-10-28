@@ -18,4 +18,5 @@
     </author>
 
 	<icon src="icon.png" />
+	<gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
 </widget>
