@@ -14,69 +14,39 @@
     <script type="text/javascript" src="scripts/jquery.easypiechart.js"></script>
     <script type="text/javascript" src="scripts/jquery.sparkline.min.js"></script>    
 	<script src="cordova.js"></script>
-	<script>
-		// Wait for Cordova to load
-		document.addEventListener("deviceready", function() { 
-			var db = window.sqlitePlugin.openDatabase("Database", "1.0", "Demo", -1);
-
-			  db.transaction(function(tx) {
-				tx.executeSql('DROP TABLE IF EXISTS test_table');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
-			
-				tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
-				  alert("insertId: " + res.insertId + " -- probably 1");
-				  alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
-			
-				  tx.executeSql("select count(id) as cnt from test_table;", [], function(tx, res) {
-					alert("res.rows.length: " + res.rows.length + " -- should be 1");
-					alert("res.rows.item(0).cnt: " + res.rows.item(0).cnt + " -- should be 1");
-				  });
-			
-				}, function(e) {
-				  alert("ERROR: " + e.message);
-				});
-			  });
-			  
-			  
-			navigator.vibrate([500, 200, 500]);
-			alert('test');
-			
-			window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
-		}, false);
-		 
-		 
-		$(document).on("pagebeforeshow","#pagetwo",function(){
-			alert("pagebeforeshow event fired - pagetwo is about to be shown");
-		});
-		$(document).on("pageshow","#pagetwo",function(){
-			alert("pageshow event fired - pagetwo is now shown");
-		});
-		$(document).on("pagebeforehide","#pagetwo",function(){
-			alert("pagebeforehide event fired - pagetwo is about to be hidden");
-		});
-		$(document).on("pagehide","#pagetwo",function(){
-			alert("pagehide event fired - pagetwo is now hidden");
-		});
-	</script>
-
-
+	<script src="scripts/program.js"></script>
 </head>
 <body>    
 
+<div id="alertbg" class="alertwindowbg"></div>
+<div id="alert" class="alertwindow">
+	<div class="question"><img src="images/bolcom.png" align="left"><span class="vraag">Op de website van Bol.com probeert iemand in te loggen met u gegevens, klopt dit?</span></div>
+	<img class="timer" src="images/timer.gif" />
+	<a href="#" id="BtnTrue" class="mybutton" style="height: 50px; line-height: 50px; font-size: 36px;">Ja</a>
+	<a href="#" id="BtnFalse" class="mybutton" style="height: 27px; line-height: 27px;">Nee</a>
+</div>
+
+
+
 <div data-role="page" id="home">
   <div data-role="header">	    
-    <a href="#settings" class="iconbutton" data-transition="slide" id="BtnAccount"><i class="fa fa-user"></i></a>
-    <a href="#statistieken" class="iconbutton" data-transition="slide" id="BtnChart"><i class="fa fa-area-chart"></i></a>
-    <h1>Martin Siepkes</h1>
-	<h3>Welkom terug</h3>
+    <a href="#gegevens" class="iconbutton" data-transition="slide" id="BtnAccount" style="display: none"><i class="fa fa-user"></i></a>
+    <a href="#statistieken" class="iconbutton" data-transition="slide" id="BtnChart" style="display: none"><i class="fa fa-area-chart"></i></a>
+    <h1 id="username">Nieuwe gebruiker</h1>
+	<h3 id="welcometext">Welkom</h3>
   </div>
 
   <div data-role="main" class="ui-content">	
   <div class="bar"></div>    
     <p id="existinguser">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></p> 
     <p id="newuser">U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken</p>
-	<a href="#aanmelden" data-transition="slide" id="BtnRegister" class="mybutton" style="height: 30px; line-height: 30px;">Aanmelden</a>
-  </div> 
+	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser" class="mybutton" style="height: 30px; line-height: 30px;">Aanmelden</a>
+  </div>     
+  
+  <br><br>
+    <div id="status">
+        ssss
+    </div>
 </div> 
 
 
@@ -88,22 +58,57 @@
   </div>
 
   <div data-role="main" class="ui-content">
-    <p>This is Page Two. If you click on the link below, it will take you to Page One.</p>
-      <div class="registerform">
-		<label>Voornaam:</label><input id="firstname" type="text" maxlength="250" /><br />
-		<label>Achternaam:</label><input id="lastname" type="text" maxlength="250" /><br />
-		<label>E-mail adres:</label><input id="email" type="email" maxlength="250" /><br /><br />
-		<div class="bar"></div>
-		
-		<label style="cursor: pointer"><input id="checkbox" type="checkbox" />Ik heb een aanmeldcode</label> 
-		<label>Aanmeldcode:</label><input id="aanmeldcode" maxlength="6" type="text" disabled="disabled" style="text-align: center; font-weight: 600; font-size: 20px; line-height: 10px; height: 28px; letter-spacing: 2px;" /><br />
-	</div> <br /> 
-    <a href="views/aanmelden.html" data-role="tab" id="BtnRegisterForm" class="mybutton" style="height: 30px;">Verstuur</a> 
+	<p>Vul hieronder uw gegevens in en klik op versturen, bent u al eens eerder aangemeld geweest? Ga dan eerst naar <a href="http://www.recheck.nl/" target="_blank">www.recheck.nl</a> om een aanmeldcode op te vragen.</p>
+	<div class="bar"></div>
+		<div class="registerform">
+			<label>Voornaam:</label><input id="firstname" type="text" maxlength="250" /><br />
+			<label>Achternaam:</label><input id="lastname" type="text" maxlength="250" /><br />
+			<label>E-mail adres:</label><input id="email" type="email" maxlength="250" /><br /><br />
+			<div class="bar"></div>
+			
+			<label style="cursor: pointer"><input id="checkbox" type="checkbox" data-role="none"  />Ik heb een aanmeldcode</label> 
+			<label>Aanmeldcode:</label><input id="aanmeldcode" maxlength="6" type="text" disabled="disabled" style="text-align: center; font-weight: 600; font-size: 20px; line-height: 10px; height: 28px; letter-spacing: 2px;" /><br />
+		</div> <br /> 
+		<a href="#" id="BtnRegisterForm" class="mybutton" style="height: 30px; line-height: 30px;">Verstuur</a>
+  </div> 
+</div>
 
-    <a href="#home" data-transition="slide" data-direction="reverse">Go to Page One</a>
+
+
+<div data-role="page" id="gegevens">
+  <div data-role="header">    
+    <a href="#home" class="iconbutton" id="BtnHome" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
+    <h1>Account gegevens</h1>
+	<h3>Bewerken</h3>
   </div>
-</div> 
 
+  <div data-role="main" class="ui-content">
+	<div class="bar"></div>
+		<div class="registerform">
+			<label>Voornaam:</label><input id="firstname" type="text" maxlength="250" /><br />
+			<label>Achternaam:</label><input id="lastname" type="text" maxlength="250" /><br />
+			<label>E-mail adres:</label><input id="email" type="email" maxlength="250" /><br /><br />
+			<div class="bar"></div>
+			
+			<label style="cursor: pointer"><input id="checkbox" type="checkbox" data-role="none" />Ik wil mijn account opheffen.</label> 
+		</div> <br /> 
+		<a href="#" id="BtnChangeForm" class="mybutton" style="height: 30px; line-height: 30px;">Wijzigen</a>
+  </div> 
+</div>
+
+
+
+
+<div data-role="page" id="statistieken">
+  <div data-role="header">    
+    <a href="#home" class="iconbutton" id="BtnHome" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
+    <h1>Statistieken</h1>
+	<div class="bar"></div>
+  </div>
+
+  <div data-role="main" class="ui-content">
+  </div> 
+</div>
 
 
 <div data-role="page" data-dialog="true" id="pagethree">
