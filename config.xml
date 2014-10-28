@@ -32,36 +32,6 @@
     <splash src="images/inloggen.png" density="port-xhdpi"/>
 </platform>
 
-<platform name="ios">
-    <!-- images are determined by width and height. The following are supported -->
-    <splash src="images/inloggen.png" width="320" height="480"/>
-    <splash src="images/inloggen.png" width="640" height="960"/>
-    <splash src="images/inloggen.png" width="768" height="1024"/>
-    <splash src="images/inloggen.png" width="1536" height="2048"/>
-    <splash src="images/inloggen.png" width="1024" height="768"/>
-    <splash src="images/inloggen.png" width="2048" height="1536"/>
-    <splash src="images/inloggen.png" width="640" height="1136"/>
-    <splash src="images/inloggen.png" width="750" height="1334"/>
-    <splash src="images/inloggen.png" width="1242" height="2208"/>
-    <splash src="images/inloggen.png" width="2208" height="1242"/>
-</platform>
-
-<platform name="wp8">
-    <!-- images are determined by width and height. The following are supported -->
-    <splash src="images/inloggen.png" width="768" height="1280"/>
-</platform>
-
-<platform name="windows8">
-    <!-- images are determined by width and height. The following are supported -->
-    <splash src="images/inloggen.png" width="620" height="300"/>
-</platform>
-
-<platform name="blackberry10">
-    <!-- Add a rim:splash element for each resolution and locale you wish -->
-    <!-- http://developer.blackberry.com/html5/documentation/rim_splash_element.html -->
-    <rim:splash src="images/inloggen.png"/>
-</platform>
-
 <preference name="SplashScreenDelay" value="10000" />
 
 
