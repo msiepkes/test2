@@ -16,24 +16,12 @@
     <author href="https://build.phonegap.com" email="support@phonegap.com">
         Hardeep Shoker 
     </author>
+	<gap:splash src="images/splash.png" />
 
-
-
-<platform name="android">
-    <!-- you can use any density that exists in the Android project -->
-    <splash src="images/inloggen.png" density="land-hdpi"/>
-    <splash src="images/inloggen.png" density="land-ldpi"/>
-    <splash src="images/inloggen.png" density="land-mdpi"/>
-    <splash src="images/inloggen.png" density="land-xhdpi"/>
-
-    <splash src="images/inloggen.png" density="port-hdpi"/>
-    <splash src="images/inloggen.png" density="port-ldpi"/>
-    <splash src="images/inloggen.png" density="port-mdpi"/>
-    <splash src="images/inloggen.png" density="port-xhdpi"/>
-</platform>
-
-<preference name="SplashScreenDelay" value="10000" />
-
+	<preference name="SplashScreenDelay" value="10000" />
+	<preference name="splash-screen-duration" value="10000"/>
+	<preference name="fullscreen" value="true" />
+	<preference name="target-device" value="handset" />
 
 	<icon src="icon.png" />
 	<gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
@@ -41,4 +29,7 @@
 	<gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.0" />
 	<gap:plugin name="com.footprint.cordova.plugin.local-notification" version="0.8.0" />
 	<gap:plugin name="hu.dpal.phonegap.plugins.uniquedeviceid" version="1.1.0" />
+    <access origin="http://phonegap.com" subdomains="true" />
+
+
 </widget>
