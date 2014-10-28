@@ -1,4 +1,4 @@
-var db = window.sqlitePlugin.openDatabase("recheck", "1.0", "recheck", -1);
+//var db = window.sqlitePlugin.openDatabase("recheck", "1.0", "recheck", -1);
 var _t = null; 
 var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 var Valid = null;
@@ -25,7 +25,9 @@ document.addEventListener("deviceready", function() {
  
  
 $(document).on("pageshow","#home",function(){
+alert('1');
 	if($('#home').attr('isLoaded') == null) {
+alert('2');
 		$.connection.hub.url = _url;  
         Valid = $.connection.valid;     
 		
@@ -33,6 +35,7 @@ $(document).on("pageshow","#home",function(){
 			alert('server offline');
 			return;
         } else { 
+alert('3');
             Valid.client.returnWelcomeMessage = function (message) {
                 $('#existinguser').html(message);
             }
@@ -106,9 +109,11 @@ $(document).on("pageshow","#home",function(){
             }); 
         }
 
+alert('4');
 		 db.transaction(function(tx) {
               tx.executeSql("SELECT firstname, lastname, code FROM gebruiker", [], function(tx, res) {
 				  if(res.rows.length > 0) { 
+alert('5');
 					_code = results.rows.item(0).code;
 					$('#BtnAccount').show();
 					$('#BtnChart').show();
@@ -121,6 +126,7 @@ $(document).on("pageshow","#home",function(){
 				    $('.blink').blink({ delay: 500 });
 					existingUser();
 				  } else {
+alert('6');
 					$('#BtnAccount').hide();
 					$('#BtnChart').hide();
 					$('#username').text('Nieuwe gebruiker');
@@ -133,14 +139,18 @@ $(document).on("pageshow","#home",function(){
          });
 		
 		
+alert('7');
 		$('#home').attr('isLoaded', true);
 	}
 	
 	
     function existingUser() { 
+alert('8');
         if(_code != null) {
+alert('9');
             $.connection.hub.stateChanged(connectionStateChanged);
             $.connection.hub.start({jsonp: _isChrome}).done(function () { 
+alert('10');
 				Valid.server.registerClient(_code); 
 				Valid.server.getWelcomeMessage(); 
             });
