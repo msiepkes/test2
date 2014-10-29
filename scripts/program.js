@@ -41,9 +41,9 @@ var _questionid = null;
       });
 	  
 	  
-		//$(document).on("pageshow","#home",function(){
-			alert('home');
-		//});
+		$(document).on("pageshow","#aanmelden",function(){
+			alert('aanmelden');
+		});
     }
 
 
