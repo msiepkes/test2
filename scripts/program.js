@@ -1,4 +1,4 @@
-var db = window.sqlitePlugin.openDatabase("recheck", "1.0", "recheck", -1);
+var db = window.sqlitePlugin.openDatabase({name: "recheck"});
 var _t = null; 
 var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 var Valid = null;
