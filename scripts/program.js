@@ -7,8 +7,42 @@ var _url = 'http://64sws.symsys.nl/signalr';
 var _questionid = null;
 
 
-document.addEventListener("deviceready", function() {    
-alert('0'); 
+
+// Wait for Cordova to load
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // Cordova is ready
+    function onDeviceReady() {
+      var db = window.sqlitePlugin.openDatabase({name: "DB"});
+
+      db.transaction(function(tx) {
+        tx.executeSql('DROP TABLE IF EXISTS test_table');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
+
+        // demonstrate PRAGMA:
+        db.executeSql("pragma table_info (test_table);", [], function(res) {
+          alert("PRAGMA res: " + JSON.stringify(res));
+        });
+
+        tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
+          alert("insertId: " + res.insertId + " -- probably 1");
+          alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
+
+          db.transaction(function(tx) {
+            tx.executeSql("select count(id) as cnt from test_table;", [], function(tx, res) {
+              alert("res.rows.length: " + res.rows.length + " -- should be 1");
+              alert("res.rows.item(0).cnt: " + res.rows.item(0).cnt + " -- should be 1");
+            });
+          });
+
+        }, function(e) {
+          alert("ERROR: " + e.message);
+        });
+      });
+    }
+
+//document.addEventListener("deviceready", function() {    
+//alert('0'); 
 	  /*db.transaction(function(tx) { 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS gebruiker (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, firstname TEXT NOT NULL DEFAULT, lastname TEXT NOT NULL DEFAULT, code TEXT NOT NULL DEFAULT, email TEXT NOT NULL DEFAULT)');
 	
@@ -19,12 +53,12 @@ alert('0');
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS accesslog (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, client TEXT NOT NULL DEFAULT, datum DATETIME NOT NULL DEFAULT, geweigerd BIT NOT NULL DEFAULT 0, telaat BIT NOT NULL DEFAULT 0, toegestaan BIT NOT NULL DEFAULT 0)');
 	  });*/
 	   
-alert('00'); 
-	navigator.vibrate([500, 200, 500]);
+//alert('00'); 
+//	navigator.vibrate([500, 200, 500]);
  
 	//alert('test');
 	//window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
-}, false);
+//}, false);
 
 
 
