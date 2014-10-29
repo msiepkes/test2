@@ -9,7 +9,7 @@ var _questionid = null;
 
 document.addEventListener("deviceready", function() {    
 alert('0'); 
-	  db.transaction(function(tx) { 
+	  /*db.transaction(function(tx) { 
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS gebruiker (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, firstname TEXT NOT NULL DEFAULT, lastname TEXT NOT NULL DEFAULT, code TEXT NOT NULL DEFAULT, email TEXT NOT NULL DEFAULT)');
 	
 		  tx.executeSql("INSERT INTO gebruiker (firstname, lastname, code, email) VALUES (?,?,?,?)", ['Martin', 'Siepkes', '7aafaa3f-ff25-4a5a-91c6-753f30a5a03b', 'martin.siepkes@quicknet.nl'], function (tx, res) {}, function(e) {
@@ -17,11 +17,17 @@ alert('0');
 		  });
 	
 		  tx.executeSql('CREATE TABLE IF NOT EXISTS accesslog (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, client TEXT NOT NULL DEFAULT, datum DATETIME NOT NULL DEFAULT, geweigerd BIT NOT NULL DEFAULT 0, telaat BIT NOT NULL DEFAULT 0, toegestaan BIT NOT NULL DEFAULT 0)');
-	  });
+	  });*/
 	   
 alert('00'); 
 	navigator.vibrate([500, 200, 500]);
  
+	//alert('test');
+	//window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
+}, false);
+
+
+
  
 $(document).on("pageshow","#home",function(){
 alert('1');
@@ -59,14 +65,14 @@ alert('3');
                     _questionid = null;
                     $('#alertbg').hide();
                     $('#alert').hide();
-                    
+                    /*
                     db.transaction(
                         function( transaction ){  
                             transaction.executeSql( 
                                  "INSERT INTO accesslog (client, datum, geweigerd, telaat, toegestaan) VALUES ('" + customername + "', datetime(), 0, 1, 0);"
                              );
                         }
-                    ); 
+                    ); */
                 }, 10500);
 			};
             
@@ -79,14 +85,14 @@ alert('3');
                 _t = null; 
                 $('#alertbg').hide();
                 $('#alert').hide();
-                
+                /*
                 db.transaction(
                     function( transaction ){  
                         transaction.executeSql( 
                              "INSERT INTO accesslog (client, datum, geweigerd, telaat, toegestaan) VALUES ('" + customername + "', datetime(), 0, 0, 1);"
                          );
                     }
-                ); 
+                ); */
             });
             
             $('#BtnFalse').click(function (e) {
@@ -97,17 +103,17 @@ alert('3');
                 _t = null; 
                 $('#alertbg').hide();
                 $('#alert').hide();
-                
+                /*
                 db.transaction(
                     function( transaction ){  
                         transaction.executeSql( 
                              "INSERT INTO accesslog (client, datum, geweigerd, telaat, toegestaan) VALUES ('" + customername + "', datetime(), 1, 0, 0);"
                          );
                     }
-                ); 
+                ); */
             }); 
         }
-
+/*
 alert('4');
 		 db.transaction(function(tx) {
               tx.executeSql("SELECT firstname, lastname, code FROM gebruiker", [], function(tx, res) {
@@ -125,7 +131,7 @@ alert('5');
 				    $('.blink').blink({ delay: 500 });
 					existingUser();
 				  } else {
-alert('6');
+alert('6');*/
 					$('#BtnAccount').hide();
 					$('#BtnChart').hide();
 					$('#username').text('Nieuwe gebruiker');
@@ -133,18 +139,23 @@ alert('6');
 					$('#newuser').show();
 					$('#existinguser').hide(); 
 					$('#BtnRegisterNewUser').show();
-				  } 
+				/*  } 
               });
          });
-		
+		*/
 		
 alert('7');
 		$('#home').attr('isLoaded', true);
 	}
 	
-	//alert('test');
-	//window.plugin.notification.local.add({ message: 'Great app!', autoCancel: true });
-}, false);
+	
+	
+	
+	
+	
+	
+	
+	
 	
     function existingUser() { 
 alert('8');
