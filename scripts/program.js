@@ -13,7 +13,7 @@ var _questionid = null;
 
     // Cordova is ready
     function onDeviceReady() {
-		localStorage.setItem('firstname', 'Martin');
+		//localStorage.setItem('firstname', 'Martin');
 				
 				   
 	   	
