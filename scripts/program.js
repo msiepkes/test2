@@ -14,6 +14,9 @@ var _questionid = null;
     // Cordova is ready
     function onDeviceReady() {
 		window.sqlitePlugin.deleteDatabase("DB");
+		
+		
+		
 alert('a1');
 var db = window.sqlitePlugin.openDatabase({name: "DB"});
 alert('a2');
