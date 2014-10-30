@@ -28,23 +28,25 @@ var _questionid = null;
               alert("res.rows.length: " + res.rows.length + " -- should be 1");
               alert("res.rows.item(0).cnt: " + res.rows.item(0).cnt + " -- should be 1");
             });
-          });
-		  
-		  
-          db.transaction(function(tx) {
-            tx.executeSql("select * from gebruiker;", [], function(tx, res) {
-			  if(res.rows.length > 0) { 
-                alert("voornaam: " + res.rows.item(0).firstname);
-                alert("achternaam: " + res.rows.item(0).lastname);
-			  }
-            });
-          });
+          }); 
 
         }, function(e) {
           alert("ERROR: " + e.message);
         });
       });
 	  
+	  alert('s1');
+  
+	  db.transaction(function(tx) {
+		tx.executeSql("select firstname, lastname from gebruiker;", [], function(tx, res) {
+		  if(res.rows.length > 0) { 
+			alert("voornaam: " + res.rows.item(0).firstname);
+			alert("achternaam: " + res.rows.item(0).lastname);
+		  }
+		});
+	  });
+	  
+	  alert('s1');
 	  
 		$(document).on("pageshow","#aanmelden",function(){
 			alert('aanmelden');
