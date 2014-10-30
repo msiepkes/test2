@@ -40,6 +40,7 @@ alert('a4');
         });
       });
 	  
+	  
 	  alert('s1');
   
 	  db.transaction(function(tx) {
