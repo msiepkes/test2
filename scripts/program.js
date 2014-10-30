@@ -16,7 +16,7 @@ var _questionid = null;
       var db = window.sqlitePlugin.openDatabase({name: "DB"});
 
       db.transaction(function(tx) {
-        tx.executeSql('DROP TABLE IF EXISTS test_table');
+        tx.executeSql('DROP TABLE IF EXISTS gebruiker');
         tx.executeSql('CREATE TABLE IF NOT EXISTS gebruiker (firstname text, lastname text, email text, code text)');
  
         tx.executeSql("INSERT INTO gebruiker (firstname, lastname, email, code) VALUES (?,?)", ["Martin", "Siepkes", "martin.siepkes@quicknet.nl", "7aafaa3f-ff25-4a5a-91c6-753f30a5a03b"], function(tx, res) {
@@ -28,7 +28,7 @@ var _questionid = null;
               alert("res.rows.length: " + res.rows.length + " -- should be 1");
               alert("res.rows.item(0).cnt: " + res.rows.item(0).cnt + " -- should be 1");
             });
-          }); 
+          });
 
         }, function(e) {
           alert("ERROR: " + e.message);
@@ -47,6 +47,7 @@ var _questionid = null;
 	  });
 	  
 	  alert('s1');
+	  
 	  
 		$(document).on("pageshow","#aanmelden",function(){
 			alert('aanmelden');
