@@ -15,7 +15,7 @@
     <script type="text/javascript" src="scripts/jquery.sparkline.min.js"></script>       
 	<script type="text/javascript" src="scripts/jquery.signalR-2.1.2.min.js"></script> 
     <script src="http://64sws.symsys.nl/signalr/hubs" type="text/javascript"></script> 
-	<script src="cordova.js"></script>
+	<!--script src="cordova.js"></script-->
 	<script src="scripts/program.js"></script>
 </head>
 <body>    
@@ -42,7 +42,7 @@
   <div class="bar"></div>    
     <p id="existinguser" style="display: none">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></p> 
     <p id="newuser" style="display: none">U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken</p>
-	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser" class="mybutton" style="height: 30px; line-height: 30px;">Aanmelden</a>
+	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser" class="mybutton" style="height: 30px; line-height: 30px; display: none">Aanmelden</a>
   </div>     
   
   <br><br>
@@ -55,7 +55,7 @@
 
 <div data-role="page" id="aanmelden">
   <div data-role="header">    
-    <a href="#home" class="iconbutton" id="BtnHome" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
+    <a href="#home" class="iconbutton" id="BtnHome1" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
     <h1>Aanmelden</h1>
   </div>
 
@@ -63,13 +63,12 @@
 	<p>Vul hieronder uw gegevens in en klik op versturen, bent u al eens eerder aangemeld geweest? Ga dan eerst naar <a href="http://www.recheck.nl/" target="_blank">www.recheck.nl</a> om een aanmeldcode op te vragen.</p>
 	<div class="bar"></div>
 		<div class="registerform">
-			<label>Voornaam:</label><input id="firstname" type="text" maxlength="250" />
-			<label>Achternaam:</label><input id="lastname" type="text" maxlength="250" />
-			<label>E-mail adres:</label><input id="email" type="email" maxlength="250" />
+			<label>Voornaam:</label><input id="firstname1" type="text" maxlength="250" />
+			<label>Achternaam:</label><input id="lastname1" type="text" maxlength="250" />
+			<label>E-mail adres:</label><input id="email1" type="email" maxlength="250" />
 			<div class="bar"></div>
-			
-			<label style="cursor: pointer"><input id="checkbox" type="checkbox" data-role="none"  />Ik heb een aanmeldcode</label> 
-			<label>Aanmeldcode:</label><input id="aanmeldcode" maxlength="6" type="text" disabled="disabled" style="text-align: center; font-weight: 600; font-size: 20px; line-height: 10px; height: 28px; letter-spacing: 2px;" />
+			<label style="cursor: pointer"><input id="checkbox1" type="checkbox" data-role="none"  />Ik heb een aanmeldcode</label> 
+			<label>Aanmeldcode:</label><input id="aanmeldcode" maxlength="6" type="text" style="text-align: center; font-weight: 600; font-size: 20px; line-height: 10px; height: 28px; letter-spacing: 2px;" />
 		</div> <br /> 
 		<a href="#" id="BtnRegisterForm" class="mybutton" style="height: 30px; line-height: 30px;">Verstuur</a>
   </div> 
@@ -79,7 +78,7 @@
 
 <div data-role="page" id="gegevens">
   <div data-role="header">    
-    <a href="#home" class="iconbutton" id="BtnHome" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
+    <a href="#home" class="iconbutton" id="BtnHome3" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
     <h1>Account gegevens</h1>
 	<h3>Bewerken</h3>
   </div>
@@ -87,13 +86,12 @@
   <div data-role="main" class="ui-content">
 	<div class="bar"></div>
 		<div class="registerform">
-			<label>Voornaam:</label><input id="firstname" type="text" maxlength="250" /><br />
-			<label>Achternaam:</label><input id="lastname" type="text" maxlength="250" /><br />
-			<label>E-mail adres:</label><input id="email" type="email" maxlength="250" /><br /><br />
+			<label>Voornaam:</label><input id="firstname2" type="text" maxlength="250" />
+			<label>Achternaam:</label><input id="lastname2" type="text" maxlength="250" />
+			<label>E-mail adres:</label><input id="email2" type="email" maxlength="250" />
 			<div class="bar"></div>
-			
-			<label style="cursor: pointer"><input id="checkbox" type="checkbox" data-role="none" />Ik wil mijn account opheffen.</label> 
-		</div> <br /> 
+			<label style="cursor: pointer"><input id="checkbox2" type="checkbox" data-role="none" />Ik wil mijn account opheffen.</label><br />
+		</div>
 		<a href="#" id="BtnChangeForm" class="mybutton" style="height: 30px; line-height: 30px;">Wijzigen</a>
   </div> 
 </div>
@@ -103,9 +101,12 @@
 
 <div data-role="page" id="statistieken">
   <div data-role="header">    
-    <a href="#home" class="iconbutton" id="BtnHome" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
+    <a href="#home" class="iconbutton" id="BtnHome2" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
     <h1>Statistieken</h1>
-	<div class="bar"></div>
+	  <div data-role="main" class="ui-content">
+		<div class="bar"></div>
+		<ul id="stats" data-role="listview" data-inset="true"></ul>
+	  </div>
   </div>
 
   <div data-role="main" class="ui-content">
