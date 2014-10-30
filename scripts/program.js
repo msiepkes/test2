@@ -13,11 +13,16 @@ var _questionid = null;
 
     // Cordova is ready
     function onDeviceReady() {
-      var db = window.sqlitePlugin.openDatabase({name: "DB"});
+		window.sqlitePlugin.deleteDatabase("DB");
+alert('a1');
+var db = window.sqlitePlugin.openDatabase({name: "DB"});
+alert('a2');
 
       db.transaction(function(tx) {
+alert('a3');
         tx.executeSql('DROP TABLE IF EXISTS gebruiker');
         tx.executeSql('CREATE TABLE IF NOT EXISTS gebruiker (firstname text, lastname text, email text, code text)');
+alert('a4');
  
         tx.executeSql("INSERT INTO gebruiker (firstname, lastname, email, code) VALUES (?,?)", ["Martin", "Siepkes", "martin.siepkes@quicknet.nl", "7aafaa3f-ff25-4a5a-91c6-753f30a5a03b"], function(tx, res) {
           alert("insertId: " + res.insertId + " -- probably 1");
