@@ -17,21 +17,26 @@ var _questionid = null;
 
       db.transaction(function(tx) {
         tx.executeSql('DROP TABLE IF EXISTS test_table');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
-
-        // demonstrate PRAGMA:
-        db.executeSql("pragma table_info (test_table);", [], function(res) {
-          alert("PRAGMA res: " + JSON.stringify(res));
-        });
-
-        tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS gebruiker (firstname text, lastname text, email text, code text)');
+ 
+        tx.executeSql("INSERT INTO gebruiker (firstname, lastname, email, code) VALUES (?,?)", ["Martin", "Siepkes", "martin.siepkes@quicknet.nl", "7aafaa3f-ff25-4a5a-91c6-753f30a5a03b"], function(tx, res) {
           alert("insertId: " + res.insertId + " -- probably 1");
           alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
 
           db.transaction(function(tx) {
-            tx.executeSql("select count(id) as cnt from test_table;", [], function(tx, res) {
+            tx.executeSql("select count(*) as cnt from gebruiker;", [], function(tx, res) {
               alert("res.rows.length: " + res.rows.length + " -- should be 1");
               alert("res.rows.item(0).cnt: " + res.rows.item(0).cnt + " -- should be 1");
+            });
+          });
+		  
+		  
+          db.transaction(function(tx) {
+            tx.executeSql("select * from gebruiker;", [], function(tx, res) {
+			  if(res.rows.length > 0) { 
+                alert("voornaam: " + res.rows.item(0).firstname);
+                alert("achternaam: " + res.rows.item(0).lastname);
+			  }
             });
           });
 
