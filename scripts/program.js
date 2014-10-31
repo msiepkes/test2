@@ -10,20 +10,22 @@ var _email = '';
 var _aanmeldcode = '';
 var _customname = '';
 var _checkbox = false;
-
-Storage.prototype.setObj = function(key, obj) {
-    return this.setItem(key, JSON.stringify(obj))
-}
-Storage.prototype.getObj = function(key) {
-    return JSON.parse(this.getItem(key))
-}
+	
+	Storage.prototype.setObj = function(key, obj) {
+		return this.setItem(key, JSON.stringify(obj))
+	}
+	Storage.prototype.getObj = function(key) {
+		return JSON.parse(this.getItem(key))
+	}
 
 // Wait for Cordova to load
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // Cordova is ready
     function onDeviceReady() {  
-	   	loadProgram();
+		window.setTimeout(function() {
+			loadProgram();
+		}, 800);
 	  
 		$(document).on("pageshow","#aanmelden",function(){ 
 			if($('#aanmelden').attr('geladen') == null) {
@@ -408,13 +410,13 @@ $.fn.blink = function(options) {
 	});
 };
 
-
+/*
 $().ready(function () {
 	//test();	
 	//localStorage.removeItem('ClientLog');
 	//localStorage.removeItem('Person');
 	onDeviceReady();
-});
+});*/
 
 
  
