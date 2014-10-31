@@ -10,21 +10,21 @@ var _email = '';
 var _aanmeldcode = '';
 var _customname = '';
 var _checkbox = false;
-	
+	/*
 	Storage.prototype.setObj = function(key, obj) {
 		return this.setItem(key, JSON.stringify(obj))
 	}
 	Storage.prototype.getObj = function(key) {
 		return JSON.parse(this.getItem(key))
 	}
-
+*/
 // Wait for Cordova to load
     document.addEventListener("deviceready", onDeviceReady, false);
 
     // Cordova is ready
     function onDeviceReady() {  
 		window.setTimeout(function() {
-								   test();	
+			test();	
 			loadProgram();
 		}, 800);
 	  
@@ -47,16 +47,16 @@ function test() {
 	Person.Lastname = 'Siepkes';
 	Person.Email = 'martin.siepkes@quicknet.nl';
 	Person.Code = '7aafaa3f-ff25-4a5a-91c6-753f30a5a03b';
-	
-	localStorage.setObj('Person', Person);
+	 
+	localStorage.setItem('Person', JSON.stringify(Person)); 
 }
 
 
 
 function loadStatistieken() {
 	var LogArray = new Array();
-	if(localStorage.getObj('ClientLog') != null) {
-		LogArray = localStorage.getObj('ClientLog');
+	if(localStorage.getItem('ClientLog') != null) {
+		LogArray = JSON.parse(localStorage.getItem('ClientLog'));
 	}
 	var i = 0;
 	var li = null;
@@ -134,7 +134,7 @@ function loadGegevens() {
 			Person.Firstname = _firstname;
 			Person.Lastname = _lastname;
 			Person.Email = _email; 
-			localStorage.setObj('Person', Person);
+			localStorage.setItem('Person', JSON.stringify(Person));
 			
 			window.setTimeout(function() {
 				$('#BtnHome3').click();
@@ -215,7 +215,7 @@ function loadAanmelden() {
 			Person.Lastname = _lastname;
 			Person.Email = _email;
 			Person.Code = returnguid;
-			localStorage.setObj('Person', Person);
+			localStorage.setItem('Person', JSON.stringify(Person));
 			
 			window.setTimeout(function() {
 				$('#BtnHome1').click();
@@ -242,7 +242,7 @@ function loadAanmelden() {
 			Person.Lastname = _lastname;
 			Person.Email = _email;
 			Person.Code = returnguid;
-			localStorage.setObj('Person', Person);
+			localStorage.setItem('Person', JSON.stringify(Person));
 			 
 			window.setTimeout(function() {
 				$('#BtnHome1').click();
@@ -316,7 +316,7 @@ function loadProgram() {
 			AddAccessLog(_customname, true, false, false);  
 		}); 
 		
-		Person = localStorage.getObj('Person');
+		Person = JSON.parse(localStorage.getItem('Person'));
 		if(Person != null){
 			$('#BtnAccount').show();
 			$('#BtnChart').show();
@@ -344,8 +344,8 @@ function loadProgram() {
 function AddAccessLog(client, geweigerd, telaat, toegestaan) {
 	var num = -1;
 	var LogArray = new Array();
-	if(localStorage.getObj('ClientLog') != null) {
-		LogArray = localStorage.getObj('ClientLog');
+	if(localStorage.getItem('ClientLog') != null) {
+		LogArray = JSON.parse(localStorage.getItem('ClientLog'));
 	}
 	
 	LogArray.forEach(function(item, i) {
@@ -366,7 +366,7 @@ function AddAccessLog(client, geweigerd, telaat, toegestaan) {
 		LogArray.push(Regel);
 	}
 	
-	localStorage.setObj('ClientLog', LogArray);
+	localStorage.setItem('ClientLog', JSON.stringify(LogArray)); 
 };
 
 function isValidEmailAddress(emailAddress) {
@@ -411,13 +411,13 @@ $.fn.blink = function(options) {
 	});
 };
 
-/*
+
 $().ready(function () {
 	//test();	
 	//localStorage.removeItem('ClientLog');
 	//localStorage.removeItem('Person');
 	onDeviceReady();
-});*/
+});
 
 
  
