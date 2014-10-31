@@ -24,6 +24,7 @@ var _checkbox = false;
     // Cordova is ready
     function onDeviceReady() {  
 		window.setTimeout(function() {
+								   test();	
 			loadProgram();
 		}, 800);
 	  
