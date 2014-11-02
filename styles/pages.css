@@ -117,31 +117,8 @@
 	font-weight: 500;
 	margin-top: -10px;
 }
-A.mybutton {
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: bottom;
-	background-color: #626e7e;
-	color: #f1f2f4;
-	text-transform: uppercase;
-	font-size: 18px;
-	font-family: 'Open Sans Condensed', sans-serif;
-	font-weight: 500; 
-	width: 100%;
-	border: 1px solid #677081;
-	border-radius: 3px; 
-	margin-top: 6px;
-	cursor: pointer;
-	letter-spacing: 2px;
-}
-A.mybutton:hover {
-	background-color: #8693a3;
-	color: #4b576d;
-}
-A.mybutton:visited {
-	color: #f1f2f4;
-}
+
+
 A.iconbutton {
 	padding: 0px !important; 
 	border-radius: 0px !important; 
@@ -225,7 +202,7 @@ DIV.registerform LABEL {
 	margin-top: 5px;
 	margin-bottom: 0px !important;
 }
-DIV.registerform INPUT[type=text], DIV.registerform INPUT[type=email] {
+DIV.registerform INPUT[type=xtext], DIV.registerform INPUT[type=xemail] {
 	border: 0px none; 
 	background-color: #fff !important;
 	font-family: 'Open Sans Condensed', sans-serif;

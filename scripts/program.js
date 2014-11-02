@@ -22,10 +22,7 @@ var returnDateTime;
 		}, 800);
 	  
 		$(document).on("pageshow","#aanmelden",function(){ 
-			if($('#aanmelden').attr('geladen') == null) {
-				loadAanmelden();
-				$('#aanmelden').attr('geladen', true);
-			}
+			loadAanmelden();
 		});
 		$(document).on("pageshow","#gegevens",function(){  
 			loadGegevens(); 
@@ -78,7 +75,8 @@ function loadGegevens() {
 	$('#lastname2').val(Person.Lastname);
 	$('#email2').val(Person.Email);
 	
-	$('#BtnChangeForm').click(function(e){           
+	$('#aanmelden').off("click", "#BtnChangeForm");
+	$('#aanmelden').on('click', '#BtnChangeForm', function(e){     
 		e.preventDefault(); 
 		_firstname = $.trim($('#firstname2').val());
 		_lastname = $.trim($('#lastname2').val());
@@ -93,11 +91,12 @@ function loadGegevens() {
 	}); 
 }
 
-function loadAanmelden() {	
+function loadAanmelden() {		
 	$('#aanmeldcode').val('');
 	$('#aanmeldcode').prop('disabled', true);
 		
-	$('#checkbox1').click(function() { 
+	$('#aanmelden').off("click", "#checkbox1");
+	$('#aanmelden').on('click', '#checkbox1', function() { 
 		if($(this).is(':checked')){
 			if($('#aanmeldcode').attr('_val') != null) { $('#aanmeldcode').val($('#aanmeldcode').attr('_val')); } 
 			$('#aanmeldcode').prop('disabled', false);
@@ -108,7 +107,8 @@ function loadAanmelden() {
 		}
 	});
 
-	$('#BtnRegisterForm').click(function(e){           
+	$('#aanmelden').off("click", "#BtnRegisterForm");
+	$('#aanmelden').on('click', '#BtnRegisterForm', function(e){           
 		e.preventDefault(); 
 		_firstname = $.trim($('#firstname1').val());
 		_lastname = $.trim($('#lastname1').val());
@@ -117,18 +117,18 @@ function loadAanmelden() {
 		_checkbox = $('#checkbox1').is(':checked');
 		
 		if(!isValidEmailAddress(_email)) {  
-			navigator.notification.alert("Alle velden moeten gevuld zijn!", function () { }, "Aanmelding niet mogelijk", 'OK');
+			alert("Alle velden moeten gevuld zijn!");
 			return;
 		}
 		
 		if(_checkbox) { 
 			if(isNaN(_aanmeldcode) || _aanmeldcode.length < 6){ 
-				navigator.notification.alert("Alle velden moeten gevuld zijn!", function () { }, "Aanmelding niet mogelijk", 'OK');
+				alert("Alle velden moeten gevuld zijn!");
 				return;
 			} 
 			
 			if (_firstname === "" || _lastname === "" || _email === "" || _aanmeldcode === "") { 
-				navigator.notification.alert("Alle velden moeten gevuld zijn!", function () { }, "Aanmelding niet mogelijk", 'OK');
+				alert("Alle velden moeten gevuld zijn!");
 				return;
 			} 
 			
@@ -137,7 +137,7 @@ function loadAanmelden() {
 			});
 		} else {
 			if (_firstname === "" || _lastname === "" || _email === "") { 
-				navigator.notification.alert("Alle velden moeten gevuld zijn!", function () { }, "Geen aanmelding mogelijk", 'OK');
+				alert("Alle velden moeten gevuld zijn!");
 				return;
 			}
 			
@@ -157,7 +157,7 @@ function loadAanmelden() {
 		$.connection.hub.stop(); 
 		
 		if(errorcode != 0) { 
-			navigator.notification.alert(Answers[errorcode], function () { }, "Fout tijdens aanmelden", 'OK');
+			alert(Answers[errorcode]);
 		} else {
 			Person = new Object();
 			Person.Firstname = _firstname;
@@ -184,7 +184,7 @@ function loadAanmelden() {
 		$.connection.hub.stop(); 
 		
 		if(errorcode != 0) { 
-			navigator.notification.alert(Answers[errorcode], function () { }, "Fout tijdens aanmelden", 'OK');
+			alert(Answers[errorcode]);
 		} else {
 			Person = new Object();
 			Person.Firstname = _firstname;
@@ -207,7 +207,7 @@ function loadProgram() {
 	Valid = $.connection.valid;    
 	
 	if($.connection.hub.__proto__.__proto__ == null) { 
-		navigator.notification.alert(Answers[errorcode], function () { }, "Server offline", 'OK');
+		alert(Answers[errorcode]);
 		return;
 	} else { 
 		Valid.client.returnWelcomeMessage = function (response) {
@@ -225,7 +225,7 @@ function loadProgram() {
 			Answers[2] = 'Kon gebruiker niet bijwerken #02'; 
 					
 			if(errorcode != 0) { 
-				navigator.notification.alert(Answers[errorcode], function () { }, "Fout tijdens aanmelden", 'OK');
+				alert(Answers[errorcode]);
 			} else {
 				Person = new Object();
 				Person.Firstname = _firstname;
@@ -249,7 +249,7 @@ function loadProgram() {
 			$.connection.hub.stop(); 
 			
 			if(errorcode != 0) { 
-				navigator.notification.alert(Answers[errorcode], function () { }, "Fout tijdens aanmelden", 'OK');
+				alert(Answers[errorcode]);
 			} else {
 				localStorage.removeItem('Person');
 				localStorage.removeItem('ClientLog');
