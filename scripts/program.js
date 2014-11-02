@@ -3,6 +3,7 @@ var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 var Valid = null;
 var Person = new Object();
 var _url = 'http://64sws.symsys.nl/signalr';
+//var _url = 'http://localhost:4406/signalr';
 var _questionid = null;
 var _firstname = '';
 var _lastname = '';
@@ -10,18 +11,10 @@ var _email = '';
 var _aanmeldcode = '';
 var _customname = '';
 var _checkbox = false;
-	/*
-	Storage.prototype.setObj = function(key, obj) {
-		return this.setItem(key, JSON.stringify(obj))
-	}
-	Storage.prototype.getObj = function(key) {
-		return JSON.parse(this.getItem(key))
-	}
-*/
-// Wait for Cordova to load
+var returnDateTime;
+	
+	
     document.addEventListener("deviceready", onDeviceReady, false);
-
-    // Cordova is ready
     function onDeviceReady() {  
 		window.setTimeout(function() {
 			test();	
@@ -46,7 +39,7 @@ function test() {
 	Person.Firstname = 'Martin';
 	Person.Lastname = 'Siepkes';
 	Person.Email = 'martin.siepkes@quicknet.nl';
-	Person.Code = '7aafaa3f-ff25-4a5a-91c6-753f30a5a03b';
+	Person.Code = 'e0872374-c965-49fc-8b4f-c3af2d636e4f';//'7aafaa3f-ff25-4a5a-91c6-753f30a5a03b';
 	 
 	localStorage.setItem('Person', JSON.stringify(Person)); 
 }
@@ -61,6 +54,7 @@ function loadStatistieken() {
 	var i = 0;
 	var li = null;
 	
+	$('#stats').empty();
 	LogArray.forEach(function(item) {
 		if(item.Name) {
 			if(li != null) {
@@ -76,11 +70,15 @@ function loadStatistieken() {
 
 
 function loadGegevens() {
+	if($.connection.hub.state != 1) {
+		$('#BtnHome3').click();
+		return;
+	}
 	$('#firstname2').val(Person.Firstname);
 	$('#lastname2').val(Person.Lastname);
 	$('#email2').val(Person.Email);
 	
-	$('#BtnRegisterForm').click(function(e){           
+	$('#BtnChangeForm').click(function(e){           
 		e.preventDefault(); 
 		_firstname = $.trim($('#firstname2').val());
 		_lastname = $.trim($('#lastname2').val());
@@ -88,60 +86,11 @@ function loadGegevens() {
 		_checkbox = $('#checkbox2').is(':checked');
 		
 		if(_checkbox) { 
-			$.connection.hub.start({jsonp: _isChrome}).done(function () {
-				Valid.server.removeAccount(Person.Code); 
-			});
+			Valid.server.removeAccount(Person.Code); 
 		} else {
-			$.connection.hub.start({jsonp: _isChrome}).done(function () {
-				Valid.server.changeAccount(_firstname, _lastname, _email, Person.Code); 
-			});
+			Valid.server.changeAccount(_firstname, _lastname, _email, Person.Code); 
 		} 
-	});	
-	
-	Valid.client.returnRemoveAccount = function (errorcode, returnguid) {
-		var Answers = new Array();
-		Answers[0] = '';
-		Answers[1] = 'Er kon geen connectie gemaakt worden #01';
-		Answers[2] = 'Er kon geen connectie gemaakt worden #02'; 
-		
-		$.connection.hub.stop(); 
-		
-		if(errorcode != 0) { 
-			navigator.notification.alert(Answers[errorcode], function () { }, "Fout tijdens aanmelden", 'OK');
-		} else {
-			localStorage.removeItem('Person');
-			localStorage.removeItem('ClientLog');
-			
-			window.setTimeout(function() {
-				$('#BtnHome3').click();
-				loadProgram();
-			}, 800);
-		}
-	};
-	
-	Valid.client.returnChangeAccount = function (errorcode, returnguid) {
-		var Answers = new Array();
-		Answers[0] = '';
-		Answers[1] = 'Er kon geen connectie gemaakt worden #01';
-		Answers[2] = 'Er kon geen connectie gemaakt worden #02'; 
-		
-		$.connection.hub.stop(); 
-		
-		if(errorcode != 0) { 
-			navigator.notification.alert(Answers[errorcode], function () { }, "Fout tijdens aanmelden", 'OK');
-		} else {
-			Person = new Object();
-			Person.Firstname = _firstname;
-			Person.Lastname = _lastname;
-			Person.Email = _email; 
-			localStorage.setItem('Person', JSON.stringify(Person));
-			
-			window.setTimeout(function() {
-				$('#BtnHome3').click();
-				loadProgram();
-			}, 800);
-		}
-	};
+	}); 
 }
 
 function loadAanmelden() {	
@@ -250,11 +199,12 @@ function loadAanmelden() {
 			}, 800);
 		} 
 	};
-        
-
 }
 
 function loadProgram() { 
+	if(window.plugins){
+		window.plugins.insomnia.keepAwake();
+	}
 	$.connection.hub.url = _url;  
 	Valid = $.connection.valid;    
 	
@@ -262,11 +212,61 @@ function loadProgram() {
 		navigator.notification.alert(Answers[errorcode], function () { }, "Server offline", 'OK');
 		return;
 	} else { 
-		Valid.client.returnWelcomeMessage = function (message) {
-			$('#existinguser').html(message);
+		Valid.client.returnWelcomeMessage = function (response) {
+			$('#existinguser').html(response);
+		}
+		Valid.client.returnAskClient = function (response) {
+			returnDateTime = response;
+			loadStatistieken();
 		}
 		
-		Valid.client.askClient = function (customername, questionid) {                
+		Valid.client.returnChangeAccount = function (errorcode) {
+			var Answers = new Array();
+			Answers[0] = '';
+			Answers[1] = 'Er kon geen connectie gemaakt worden #01';
+			Answers[2] = 'Kon gebruiker niet bijwerken #02'; 
+					
+			if(errorcode != 0) { 
+				navigator.notification.alert(Answers[errorcode], function () { }, "Fout tijdens aanmelden", 'OK');
+			} else {
+				Person = new Object();
+				Person.Firstname = _firstname;
+				Person.Lastname = _lastname;
+				Person.Email = _email; 
+				localStorage.setItem('Person', JSON.stringify(Person));
+				$('#username').text(Person.Firstname + ' ' + Person.Lastname);
+				
+				window.setTimeout(function() {
+					$('#BtnHome3').click();
+				}, 800);
+			}
+		}
+		
+		Valid.client.returnRemoveAccount = function (errorcode) {
+			var Answers = new Array();
+			Answers[0] = '';
+			Answers[1] = 'Er kon geen connectie gemaakt worden #01';
+			Answers[2] = 'Account kon niet verwijderd worden #02'; 
+			
+			$.connection.hub.stop(); 
+			
+			if(errorcode != 0) { 
+				navigator.notification.alert(Answers[errorcode], function () { }, "Fout tijdens aanmelden", 'OK');
+			} else {
+				localStorage.removeItem('Person');
+				localStorage.removeItem('ClientLog');
+				
+				$('#username').text('Nieuwe gebruiker');
+				$('#welcometext').text('Welkom');
+				
+				window.setTimeout(function() {
+					$('#BtnHome3').click();
+					loadProgram();
+				}, 800);
+			}
+		};
+		
+		Valid.client.askClient = function (customername, question, questionid) {                
 			var now = new Date();
 			_questionid = questionid;
 			_customname = customername;
@@ -275,10 +275,12 @@ function loadProgram() {
 			$('#alertbg').show();
 			$('#alert').show();
 			
-			$('#alert').find('.vraag').text('Op de website van ' + customername + ' probeert iemand in te loggen met u gegevens, klopt dit?');
-			 
-			navigator.vibrate([500, 200, 500]);
-			navigator.notification.beep(2);  
+			if(question == null) {
+				$('#alert').find('.vraag').text('Op de website van ' + customername + ' probeert iemand in te loggen met u gegevens, klopt dit?');
+			} else {
+				$('#alert').find('.vraag').text(question);
+			}
+			navigator.vibrate([500, 200, 500]); 
 			
 			_t = window.setTimeout(function() {
 				window.clearTimeout(_t);
@@ -385,11 +387,12 @@ function existingUser() {
 		
 		function connectionStateChanged(state) {
 			var stateConversion = {0: 'connecting', 1: 'connected', 2: 'reconnecting', 4: 'disconnected'};
-			 
+			/*
 			if(state.newState == 0) { $('#status').css('background-color', 'blue'); }
 			if(state.newState == 1) { $('#status').css('background-color', 'green'); }
 			if(state.newState == 2) { $('#status').css('background-color', 'orange'); }
 			if(state.newState == 4) { $('#status').css('background-color', 'red'); } 
+			*/
 		};
 	}
 };
