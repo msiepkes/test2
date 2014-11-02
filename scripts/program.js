@@ -202,9 +202,7 @@ function loadAanmelden() {
 }
 
 function loadProgram() { 
-	if(window.plugins){
-		window.plugins.insomnia.keepAwake();
-	}
+
 	$.connection.hub.url = _url;  
 	Valid = $.connection.valid;    
 	

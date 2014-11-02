@@ -21,6 +21,5 @@
 	<icon src="icon.png" />
 	<gap:plugin name="org.apache.cordova.vibration" version="0.3.11" /> 
 	<gap:plugin name="com.footprint.cordova.plugin.local-notification" version="0.8.0" /> 
-	<gap:plugin name="nl.x-services.plugins.insomnia" version="4.0.0" />
 	<access origin="http://phonegap.com" subdomains="true" />
 </widget>
