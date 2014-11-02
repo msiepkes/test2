@@ -17,7 +17,7 @@ var returnDateTime;
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {  
 		window.setTimeout(function() {
-			test();	
+			//test();	
 			loadProgram();
 		}, 800);
 	  
@@ -254,8 +254,13 @@ function loadProgram() {
 				localStorage.removeItem('Person');
 				localStorage.removeItem('ClientLog');
 				
+				$('#BtnAccount').hide();
+				$('#BtnChart').hide();
 				$('#username').text('Nieuwe gebruiker');
 				$('#welcometext').text('Welkom');
+				$('#newuser').show();
+				$('#existinguser').hide(); 
+				$('#BtnRegisterNewUser').show();
 				
 				window.setTimeout(function() {
 					$('#BtnHome3').click();
