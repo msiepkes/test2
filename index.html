@@ -16,10 +16,39 @@
 	<script type="text/javascript" src="scripts/jquery.signalR-2.1.2.min.js"></script> 
     <script src="http://64sws.symsys.nl/signalr/hubs" type="text/javascript"></script> 
 	<!--script src="http://localhost:4406/signalr/hubs" type="text/javascript"></script--> 
-	<!--script src="cordova.js"></script-->
-	<script src="scripts/program.js"></script>
+	<!--script src="cordova.js"></script>
+	<script src="scripts/program.js"></script-->
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for device API libraries to load
+    //
+    function onLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        document.addEventListener("pause", onPause, false);
+        document.addEventListener("resume", onResume, false);
+		document.addEventListener("backbutton", onBackKeyDown, false);
+    }
+
+    function onPause() {
+    }
+    function onResume() {
+   		setTimeout(function() {
+		
+        }, 10);
+    }
+
+    function onBackKeyDown() {
+	
+    }
+    </script>
 </head>
-<body>    
+<body onload="onLoad()">
 
 <div id="alertbg" class="alertwindowbg"></div>
 <div id="alert" class="alertwindow">
@@ -41,9 +70,9 @@
 
   <div data-role="main" class="ui-content">	
   <div class="bar"></div>    
-    <p id="existinguser" style="display: none">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></p> 
-    <p id="newuser" style="display: none">U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken</p>
-	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser"  data-role="button" data-icon="arrow-r" style="display: none">Aanmelden</a>
+    <p id="existinguser">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></p> 
+    <p id="newuser">U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken</p>
+	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser"  data-role="button" data-icon="arrow-r">Aanmelden</a>
   </div>     
   
   <!--br><br>
