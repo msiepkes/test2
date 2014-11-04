@@ -19,8 +19,11 @@ var returnDateTime;
 		window.setTimeout(function() {
 			//test();	
 			loadProgram();
+			loadAanmelden();
+			loadGegevens(); 
+			loadStatistieken();
 		}, 800);
-	  
+	  /*
 		$(document).on("pageshow","#aanmelden",function(){ 
 			loadAanmelden();
 		});
@@ -29,7 +32,7 @@ var returnDateTime;
 		});
 		$(document).on("pageshow","#statistieken",function(){ 
 			loadStatistieken();
-		});
+		});*/
     }
 
 function test() { 
@@ -75,8 +78,7 @@ function loadGegevens() {
 	$('#lastname2').val(Person.Lastname);
 	$('#email2').val(Person.Email);
 	
-	$('#aanmelden').off("click", "#BtnChangeForm");
-	$('#aanmelden').on('click', '#BtnChangeForm', function(e){     
+	$('#BtnChangeForm').click(function(e){     
 		e.preventDefault(); 
 		_firstname = $.trim($('#firstname2').val());
 		_lastname = $.trim($('#lastname2').val());
@@ -94,9 +96,8 @@ function loadGegevens() {
 function loadAanmelden() {		
 	$('#aanmeldcode').val('');
 	$('#aanmeldcode').prop('disabled', true);
-		
-	$('#aanmelden').off("click", "#checkbox1");
-	$('#aanmelden').on('click', '#checkbox1', function() { 
+		 
+	$('#checkbox1').click(function() { 
 		if($(this).is(':checked')){
 			if($('#aanmeldcode').attr('_val') != null) { $('#aanmeldcode').val($('#aanmeldcode').attr('_val')); } 
 			$('#aanmeldcode').prop('disabled', false);
@@ -106,9 +107,8 @@ function loadAanmelden() {
 			$('#aanmeldcode').prop('disabled', true);
 		}
 	});
-
-	$('#aanmelden').off("click", "#BtnRegisterForm");
-	$('#aanmelden').on('click', '#BtnRegisterForm', function(e){           
+ 
+	$('#BtnRegisterForm').click(function(e){           
 		e.preventDefault(); 
 		_firstname = $.trim($('#firstname1').val());
 		_lastname = $.trim($('#lastname1').val());
