@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:100,300,500,600"> 
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,500,300,100" type="text/css">
 	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
     <link rel="stylesheet" type="text/css" href="styles/pages.css">    
 
@@ -14,17 +15,98 @@
     <script type="text/javascript" src="scripts/jquery.easypiechart.js"></script>
     <script type="text/javascript" src="scripts/jquery.sparkline.min.js"></script>       
 	<script type="text/javascript" src="scripts/jquery.signalR-2.1.2.min.js"></script> 
-    <script src="http://64sws.symsys.nl/signalr/hubs" type="text/javascript"></script> 
-	<!--script src="http://localhost:4406/signalr/hubs" type="text/javascript"></script--> 
+    <!--script src="http://64sws.symsys.nl/signalr/hubs" type="text/javascript"></script> 
+	<script src="http://localhost:4406/signalr/hubs" type="text/javascript"></script--> 
 	<!--script src="cordova.js"></script>
 	<script src="scripts/program.js"></script-->
-	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8">
-
-    // Wait for device API libraries to load
-    //
+	<script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript">
+	var _url = 'http://64sws.symsys.nl/signalr';
+	var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+	var Valid = null;
+	var Person = new Object();
+ 
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
+		$().ready(function () { 
+				var cont = 0;	
+				var animation = null;	
+				$('#existinguser').hide(); 
+				$('#alert').hide();
+				
+				showWaitingScreen();
+    
+				$.getScript(_url + "/hubs", function(){
+				    $('#waiting').fadeOut('slow');
+				    if($('#home').is(':visible') == false) {
+				   	  $.mobile.changePage( "#home", { transition: "slide", reverse: true, changeHash: false });
+				    }
+				    $.connection.hub.url = _url;  
+					Valid = $.connection.valid;  
+					 
+					if($.connection.hub.__proto__.__proto__ == null) { 
+						showErrorScreen();
+						return;
+					}
+					
+					Person = JSON.parse(localStorage.getItem('Person'));
+					if(Person != null){
+						$('#username').text(Person.Firstname+' '+Person.Lastname);
+						$('#welcometext').text('Welkom terug');
+						$('#hometext').html('<i class="fa fa-spinner fa-spin"></i> Bezig met ophalen nieuws items.');
+						$('#BtnRegisterNewUser').hide();
+					} else {
+						$('#username').text('Nieuwe gebruiker');
+						$('#welcometext').text('Welkom');
+						$('#hometext').text('U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken.');
+						$('#BtnRegisterNewUser').show();
+					}
+					
+					
+					 
+				});
+				/*
+				var cont = 0;				
+				var animation = setInterval(function(){
+					var position =  -1 * (cont*302);
+					$('#container2').find('img').css('margin-top', position);
+					
+					cont++;
+					if(cont == 11){
+						clearInterval(animation);
+					}
+				},1000);
+				
+				*/
+	
+				$('.CloseApp').click(function(e){ 
+					e.preventDefault();
+					if(navigator.app != null) { navigator.app.exitApp(); }
+				});
+		});
+		
+		function showWaitingScreen() { 
+			$('#waiting .bericht').text('Connectie maken naar server'); 
+			$('#waiting').show();
+		}
+		function showErrorScreen() { 
+			$('#error').show();
+		}
+				
+		function isValidEmailAddress(emailAddress) {
+			var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+			return pattern.test(emailAddress);
+		}
+
+		$('#BtnRegisterForm').click(function(e){
+			e.preventDefault();
+			
+			//$('#waiting .bericht').text('Bezig met versturen van de gegevens'); 
+			//$('#waiting').show();
+			
+		});
+		
+		
     }
 
     // device APIs are available
@@ -33,13 +115,14 @@
         document.addEventListener("pause", onPause, false);
         document.addEventListener("resume", onResume, false);
 		document.addEventListener("backbutton", onBackKeyDown, false);
+		
     }
 
     function onPause() {
     }
     function onResume() {
    		setTimeout(function() {
-		
+			showConnectionScreen();
         }, 10);
     }
 
@@ -49,43 +132,66 @@
     </script>
 </head>
 <body onload="onLoad()">
-
-<div id="alertbg" class="alertwindowbg"></div>
+ 
 <div id="alert" class="alertwindow">
-	<div class="question"><img src="images/bolcom.png" align="left"><span class="vraag">Op de website van Bol.com probeert iemand in te loggen met u gegevens, klopt dit?</span></div>
-	<img class="timer" src="images/timer.gif" />
-	<a href="#" id="BtnTrue" class="mybutton" style="height: 50px; line-height: 50px; font-size: 36px;">Ja</a>
-	<a href="#" id="BtnFalse" class="mybutton" style="height: 27px; line-height: 27px;">Nee</a>
+	<div class="question">Op de website van Bol.com probeert iemand in te loggen met u gegevens, klopt dit?</div>
+	<div id="container">
+		<img src="images/anim.png">
+	</div>
+	<div id="buttons">
+		<a href="#" id="BtnTrue" style="font-size: 45px; margin-right: 10px; font-weight: 300">Ja</a>/
+		<a href="#" id="BtnFalse" style="font-size: 22px; margin-left: 10px;">Nee</a>
+	</div>
 </div>
+<div id="waiting" class="waitingwindow">
+	<div class="bericht"></div><br />
+	<i class="fa fa-spinner fa-spin" style="font-size: 96px"></i>
+</div>
+<div id="error" class="errorwindow" style="display: none">
+	<div>Er is een fout opgetreden met de verbinding</div><br />
+	<i class="fa fa-exclamation-triangle" style="font-size: 96px"></i>
+</div>
+
+
+
+
+
+
+
 
 
 
 <div data-role="page" id="home">
   <div data-role="header">	    
-    <a href="#gegevens" class="iconbutton" data-transition="slide" id="BtnAccount" style="display: none"><i class="fa fa-user"></i></a>
-    <a href="#statistieken" class="iconbutton" data-transition="slide" id="BtnChart" style="display: none"><i class="fa fa-area-chart"></i></a>
-    <h1 id="username">Nieuwe gebruiker</h1>
+    <h1 id="username">Gebruiker</h1>
 	<h3 id="welcometext">Welkom</h3>
   </div>
 
   <div data-role="main" class="ui-content">	
-  <div class="bar"></div>    
-    <p id="existinguser">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></p> 
-    <p id="newuser">U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken</p>
-	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser"  data-role="button" data-icon="arrow-r">Aanmelden</a>
-  </div>     
-  
-  <!--br><br>
-    <div id="status">
-        ssss
-    </div-->
+  <hr>
+    <p id="hometext"></p>  
+	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser" data-role="button" data-icon="arrow-r" style="position: fixed; left: 20px; bottom: 110px; right: 20px;">Aanmelden</a>
+  </div>    
+   
+  <div data-role="footer">
+  	<div style="background-color: #d9a9ce;"><a href="#home" data-transition="slide">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #d29cc6;"><a href="#gegevens" data-transition="slide">Instellingen<br /><i class="fa fa-cogs" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #c586ba;"><a href="#statistieken" data-transition="slide">Statistieken<br /><i class="fa fa-bar-chart" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #ba75b1;"><a href="#" class="CloseApp">Sluiten<br /><i class="fa fa-sign-out" style="font-size: 32px;"></i></a></div>	 
+  </div> 
 </div> 
 
 
 
+
+
+
+
+
+
+
 <div data-role="page" id="aanmelden">
-  <div data-role="header">    
-    <a href="#home" class="iconbutton" id="BtnHome1" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
+  <div data-role="header">     
     <h1>Aanmelden</h1>
   </div>
 
@@ -96,19 +202,33 @@
 			<label>Voornaam:</label><input id="firstname1" type="text" maxlength="250" />
 			<label>Achternaam:</label><input id="lastname1" type="text" maxlength="250" />
 			<label>E-mail adres:</label><input id="email1" type="email" maxlength="250" />
-			<div class="bar"></div>
-			<label style="cursor: pointer"><input id="checkbox1" type="checkbox" data-role="none"  />Ik heb een aanmeldcode</label> 
+			<br />
+			<hr />
+			<label style="cursor: pointer"><input id="checkbox1" type="checkbox">Ik heb een aanmeldcode</label> 
 			<label>Aanmeldcode:</label><input id="aanmeldcode" maxlength="6" type="text" style="text-align: center;" />
-		</div> <br />  
-		<a href="#" id="BtnRegisterForm" data-role="button" data-icon="check">Verstuur</a>
+		</div> <br />   
+	<a href="#" id="BtnRegisterForm" data-role="button" data-icon="check" style="position: fixed; left: 20px; bottom: 110px; right: 20px;">Verstuur</a>
+  </div> 
+  <div data-role="footer">
+  	<div style="background-color: #d9a9ce; width: 100%"><a href="#home" data-transition="slide">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
   </div> 
 </div>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 <div data-role="page" id="gegevens">
   <div data-role="header">    
-    <a href="#home" class="iconbutton" id="BtnHome3" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
     <h1>Account gegevens</h1>
 	<h3>Bewerken</h3>
   </div>
@@ -119,19 +239,37 @@
 			<label>Voornaam:</label><input id="firstname2" type="text" maxlength="250" />
 			<label>Achternaam:</label><input id="lastname2" type="text" maxlength="250" />
 			<label>E-mail adres:</label><input id="email2" type="email" maxlength="250" />
-			<div class="bar"></div>
-			<label style="cursor: pointer"><input id="checkbox2" type="checkbox" data-role="none" />Ik wil mijn account opheffen.</label><br />
+			<hr /><br />
+			<label style="cursor: pointer"><input id="checkbox2" type="checkbox" />Ik wil mijn account opheffen.</label><br />
 		</div>
-		<a href="#" id="BtnChangeForm" data-role="button" data-icon="arrow-r">Wijzigen</a>
+	<a href="#" id="BtnChangeForm" data-role="button" data-icon="arrow-u" style="position: fixed; left: 20px; bottom: 110px; right: 20px;">Wijzigen</a>
+  </div> 
+  
+  
+  <div data-role="footer">
+  	<div style="background-color: #d9a9ce;"><a href="#home" data-transition="slide" data-direction="reverse">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #d29cc6;"><a href="#gegevens" data-transition="slide">Instellingen<br /><i class="fa fa-cogs" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #c586ba;"><a href="#statistieken" data-transition="slide">Statistieken<br /><i class="fa fa-bar-chart" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #ba75b1;"><a href="#" class="CloseApp">Sluiten<br /><i class="fa fa-sign-out" style="font-size: 32px;"></i></a></div>	 
   </div> 
 </div>
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 <div data-role="page" id="statistieken">
   <div data-role="header">    
-    <a href="#home" class="iconbutton" id="BtnHome2" data-transition="slide" data-direction="reverse"><i class="fa fa-home"></i></a> 
     <h1>Statistieken</h1>
 	  <div data-role="main" class="ui-content">
 		<div class="bar"></div>
@@ -141,48 +279,14 @@
 
   <div data-role="main" class="ui-content">
   </div> 
-</div>
-
-
-<div data-role="page" data-dialog="true" id="pagethree">
-  <div data-role="header">
-    <h1>I'm A Dialog Box!</h1>
-  </div>
-
-  <div data-role="main" class="ui-content" style="background-color: #fff; color: #000">
-    <p>The dialog box is different from a normal page, it is displayed on top of the current page and it will not span the entire width of the page. The dialog has also an icon of "X" in the header to close the box.</p>
-    <a href="#pagetwo">Go to Page two</a>
-  </div>
-
+  
   <div data-role="footer">
-    <h1>Footer Text In Dialog</h1>
-  </div>
-</div> 
-
-<!--
-	<div id="alertbg" class="alertwindowbg"></div>
-	<div id="alert" class="alertwindow">
-		<div class="question"><img src="images/test.png" align="left"><span class="vraag">Op de website van test.com probeert iemand in te loggen met u gegevens, klopt dit?</span></div>
-        <img class="timer" src="images/timer.gif" />
-        <a href="#" id="BtnTrue" class="mybutton" style="height: 50px; font-size: 36px;">Ja</a>
-		<a href="#" id="BtnFalse" class="mybutton" style="height: 27px;">Nee</a>
-	</div>
-	
-    <a href="views/settings.html" data-role="tab" id="BtnAccount"><i class="fa fa-user"></i></a>
-    <a href="views/statistieken.html" data-role="tab" id="BtnChart"><i class="fa fa-area-chart"></i></a>
-    <div id="username" class="name">Nieuwe gebruiker</div>
-    <div id="welcometext" class="welcome">Welkom</div>
-    <div class="bar"></div>
-    <div id="newuser" class="inleiding">U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken.</div> 
-    <div id="existinguser" class="inleiding">Bezig met ophalen nieuws items,<br /><span class="blink">&#233;&#233;n moment geduld....</span></div> 
-    <a href="views/aanmelden.html" data-role="tab" id="BtnRegister" class="mybutton" style="height: 30px;">Aanmelden</a>
-    
-     
-    <br><br>
-    <div id="status">
-        ssss
-    </div>
-    -->
+  	<div style="background-color: #d9a9ce;"><a href="#home" data-transition="slide" data-direction="reverse">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #d29cc6;"><a href="#gegevens" data-transition="slide" data-direction="reverse">Instellingen<br /><i class="fa fa-cogs" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #c586ba;"><a href="#statistieken" data-transition="slide">Statistieken<br /><i class="fa fa-bar-chart" style="font-size: 32px;"></i></a></div>	
+  	<div style="background-color: #ba75b1;"><a href="#" class="CloseApp">Sluiten<br /><i class="fa fa-sign-out" style="font-size: 32px;"></i></a></div>	 
+  </div> 
 </div>
+
 </body>
 </html>
