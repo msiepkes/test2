@@ -27,8 +27,10 @@
 	var Person = new Object();
  
     function onLoad() {
+	alert('1');
         document.addEventListener("deviceready", onDeviceReady, false);
-		window.setTimeout(function() {
+		$().ready(function () { 
+	alert('2');
 				var cont = 0;	
 				var animation = null;	
 				$('#existinguser').hide(); 
@@ -37,6 +39,7 @@
 				showWaitingScreen();
     
 				$.getScript(_url + "/hubs", function(){
+	alert('3');
 				    $('#waiting').fadeOut('slow');
 				    if($('#home').is(':visible') == false) {
 				   	  $.mobile.changePage( "#home", { transition: "slide", reverse: true, changeHash: false });
@@ -49,18 +52,22 @@
 						return;
 					}
 					
+	alert('4');
 					Person = JSON.parse(localStorage.getItem('Person'));
 					if(Person != null){
+	alert('5');
 						$('#username').text(Person.Firstname+' '+Person.Lastname);
 						$('#welcometext').text('Welkom terug');
 						$('#hometext').html('<i class="fa fa-spinner fa-spin"></i> Bezig met ophalen nieuws items.');
 						$('#BtnRegisterNewUser').hide();
 					} else {
+	alert('6');
 						$('#username').text('Nieuwe gebruiker');
 						$('#welcometext').text('Welkom');
 						$('#hometext').text('U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken.');
 						$('#BtnRegisterNewUser').show();
 					}
+	alert('7');
 					
 					
 					 
@@ -83,7 +90,7 @@
 					e.preventDefault();
 					if(navigator.app != null) { navigator.app.exitApp(); }
 				});
-		}, 800);
+		});
 		
 		function showWaitingScreen() { 
 			$('#waiting .bericht').text('Connectie maken naar server'); 
@@ -170,10 +177,10 @@
   <div data-role="main" class="ui-content">	
   <hr>
     <p id="hometext"></p>  
-	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser" data-role="button" data-icon="arrow-r" style="position: fixed; left: 20px; bottom: 110px; right: 20px;">Aanmelden</a>
+	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser" data-role="button" data-icon="arrow-r">Aanmelden</a>
   </div>    
    
-  <div data-role="footer">
+  <div data-role="footer" data-position="fixed">
   	<div style="background-color: #d9a9ce;"><a href="#home" data-transition="slide">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
   	<div style="background-color: #d29cc6;"><a href="#gegevens" data-transition="slide">Instellingen<br /><i class="fa fa-cogs" style="font-size: 32px;"></i></a></div>	
   	<div style="background-color: #c586ba;"><a href="#statistieken" data-transition="slide">Statistieken<br /><i class="fa fa-bar-chart" style="font-size: 32px;"></i></a></div>	
@@ -207,9 +214,9 @@
 			<label style="cursor: pointer"><input id="checkbox1" type="checkbox">Ik heb een aanmeldcode</label> 
 			<label>Aanmeldcode:</label><input id="aanmeldcode" maxlength="6" type="text" style="text-align: center;" />
 		</div> <br />   
-	<a href="#" id="BtnRegisterForm" data-role="button" data-icon="check" style="position: fixed; left: 20px; bottom: 110px; right: 20px;">Verstuur</a>
+	<a href="#" id="BtnRegisterForm" data-role="button" data-icon="check">Verstuur</a>
   </div> 
-  <div data-role="footer">
+  <div data-role="footer" data-position="fixed">
   	<div style="background-color: #d9a9ce; width: 100%"><a href="#home" data-transition="slide">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
   </div> 
 </div>
@@ -242,11 +249,11 @@
 			<hr /><br />
 			<label style="cursor: pointer"><input id="checkbox2" type="checkbox" />Ik wil mijn account opheffen.</label><br />
 		</div>
-	<a href="#" id="BtnChangeForm" data-role="button" data-icon="arrow-u" style="position: fixed; left: 20px; bottom: 110px; right: 20px;">Wijzigen</a>
+	<a href="#" id="BtnChangeForm" data-role="button" data-icon="arrow-u">Wijzigen</a>
   </div> 
   
   
-  <div data-role="footer">
+  <div data-role="footer" data-position="fixed">
   	<div style="background-color: #d9a9ce;"><a href="#home" data-transition="slide" data-direction="reverse">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
   	<div style="background-color: #d29cc6;"><a href="#gegevens" data-transition="slide">Instellingen<br /><i class="fa fa-cogs" style="font-size: 32px;"></i></a></div>	
   	<div style="background-color: #c586ba;"><a href="#statistieken" data-transition="slide">Statistieken<br /><i class="fa fa-bar-chart" style="font-size: 32px;"></i></a></div>	
@@ -280,7 +287,7 @@
   <div data-role="main" class="ui-content">
   </div> 
   
-  <div data-role="footer">
+  <div data-role="footer" data-position="fixed">
   	<div style="background-color: #d9a9ce;"><a href="#home" data-transition="slide" data-direction="reverse">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
   	<div style="background-color: #d29cc6;"><a href="#gegevens" data-transition="slide" data-direction="reverse">Instellingen<br /><i class="fa fa-cogs" style="font-size: 32px;"></i></a></div>	
   	<div style="background-color: #c586ba;"><a href="#statistieken" data-transition="slide">Statistieken<br /><i class="fa fa-bar-chart" style="font-size: 32px;"></i></a></div>	
