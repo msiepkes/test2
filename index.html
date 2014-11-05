@@ -28,7 +28,7 @@
  
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
-		$().ready(function () { 
+		window.setTimeout(function() {
 				var cont = 0;	
 				var animation = null;	
 				$('#existinguser').hide(); 
@@ -83,7 +83,7 @@
 					e.preventDefault();
 					if(navigator.app != null) { navigator.app.exitApp(); }
 				});
-		});
+		}, 800);
 		
 		function showWaitingScreen() { 
 			$('#waiting .bericht').text('Connectie maken naar server'); 
