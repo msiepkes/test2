@@ -22,16 +22,14 @@
 	<script src="scripts/program.js"></script-->
 	<script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
-	var _url = 'http://64sws.symsys.nl/signalr';
+	var _url = 'http://81.169.251.230/signalr';
 	var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 	var Valid = null;
 	var Person = new Object();
  
     function onLoad() {
-	alert('1');
         document.addEventListener("deviceready", onDeviceReady, false);
 		$().ready(function () { 
-	alert('2');
 				var cont = 0;	
 				var animation = null;	
 				$('#existinguser').hide(); 
@@ -40,7 +38,6 @@
 				showWaitingScreen();
     
 				$.getScript(_url + "/hubs", function(){
-	alert('3');
 				    $('#waiting').fadeOut('slow');
 				    if($('#home').is(':visible') == false) {
 				   	  $.mobile.changePage( "#home", { transition: "slide", reverse: true, changeHash: false });
@@ -53,23 +50,19 @@
 						return;
 					}
 					
-	alert('4');
-	alert(localStorage.getItem('Person'));
-					Person = JSON.parse(localStorage.getItem('Person'));
+					
+					Person = getUserProfile();
 					if(Person != null){
-	alert('5');
 						$('#username').text(Person.Firstname+' '+Person.Lastname);
 						$('#welcometext').text('Welkom terug');
 						$('#hometext').html('<i class="fa fa-spinner fa-spin"></i> Bezig met ophalen nieuws items.');
 						$('#BtnRegisterNewUser').hide();
 					} else {
-	alert('6');
 						$('#username').text('Nieuwe gebruiker');
 						$('#welcometext').text('Welkom');
 						$('#hometext').text('U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken.');
 						$('#BtnRegisterNewUser').show();
 					}
-	alert('7');
 					
 					
 					 
@@ -106,12 +99,31 @@
 			var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
 			return pattern.test(emailAddress);
 		}
+		
+		function getUserProfile() {
+			Person = new Object();
+			
+			Person.Firstname = localStorage.getItem('Firstname') || null;
+			Person.Lastname = localStorage.getItem('Lastname') || null;
+			Person.Email = localStorage.getItem('Email') || null;
+			Person.Code = localStorage.getItem('Code') || null;
+			
+			if(Person.Firstname == null) {
+				return null;
+			} else {
+				return Person;
+			}
+		}
 
 		$('#BtnRegisterForm').click(function(e){
 			e.preventDefault();
 			
-			//$('#waiting .bericht').text('Bezig met versturen van de gegevens'); 
-			//$('#waiting').show();
+			alert($('#aanmelden').find('.ui-content').scrollTop());
+			
+			
+			$('#aanmelden').find('[data-role=main]').scrollTop(0);
+			$('#waiting .bericht').text('Bezig met versturen van de gegevens'); 
+			$('#waiting').show();
 			
 		});
 		
@@ -206,7 +218,7 @@
 
   <div data-role="main" class="ui-content">
 	<p>Vul hieronder uw gegevens in en klik op versturen, bent u al eens eerder aangemeld geweest? Ga dan eerst naar <a href="http://www.recheck.nl/" target="_blank">www.recheck.nl</a> om een aanmeldcode op te vragen.</p>
-	<div class="bar"></div>
+	<hr />
 		<div class="registerform">
 			<label>Voornaam:</label><input id="firstname1" type="text" maxlength="250" />
 			<label>Achternaam:</label><input id="lastname1" type="text" maxlength="250" />
@@ -243,7 +255,7 @@
   </div>
 
   <div data-role="main" class="ui-content">
-	<div class="bar"></div>
+	<hr />
 		<div class="registerform">
 			<label>Voornaam:</label><input id="firstname2" type="text" maxlength="250" />
 			<label>Achternaam:</label><input id="lastname2" type="text" maxlength="250" />

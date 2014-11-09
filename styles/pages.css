@@ -40,7 +40,7 @@
 }
 HR {
 	border: none;
-	border-top: 2px solid #fff;
+	border-top: 1px solid #fff;
 }
 .ui-header {
 	margin-top: 10px;
@@ -145,7 +145,7 @@ HR {
 	background-color: #b0b0b0 !important;
 	background-image: url(../images/background.png);
 	background-position: center top;
-    z-index: 999;
+    z-index: 9999;
     position: absolute; 
     padding: 0px;
     left: 0px;
@@ -194,6 +194,7 @@ DIV.registerform .ui-input-text {
 
 A {
 	color: #fff !important;
+	font-weight: 500 !important;
 }
 
 
