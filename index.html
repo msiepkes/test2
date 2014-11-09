@@ -26,6 +26,7 @@
 	var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 	var Valid = null;
 	var Person = new Object();
+	var TempProperties = new Object();
  
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -48,6 +49,53 @@
 					if($.connection.hub.__proto__.__proto__ == null) { 
 						showErrorScreen();
 						return;
+					} else { 
+						Valid.client.returnWelcomeMessage = function (response) {
+							$('#hometext').html(response);
+						}
+						
+						Valid.client.returnRegisterWithCode = function (errorcode, returnguid) {
+							var Answers = new Array();
+							Answers[0] = '';
+							Answers[1] = 'Er kon geen connectie gemaakt worden #01';
+							Answers[2] = 'Er kon geen connectie gemaakt worden #02';
+							Answers[3] = 'E-mail adres in combinatie met aanmeldcode onbekend #03';
+							
+							$.connection.hub.stop(); 
+							
+							if(errorcode != 0) { 
+								alert(Answers[errorcode]);
+							} else {
+								setUserProfile(TempProperties.Firstname, TempProperties.Lastname, TempProperties.Email, returnguid);
+								
+								/*window.setTimeout(function() {
+									$('#BtnHome1').click();
+									loadProgram();
+								}, 800);*/
+							}
+						};
+							
+						Valid.client.returnRegisterWithoutCode = function (errorcode, returnguid) {
+							var Answers = new Array();
+							Answers[0] = '';
+							Answers[1] = 'Er kon geen connectie gemaakt worden #04';
+							Answers[2] = 'E-mail adres bestaat al #05';
+							Answers[3] = 'Er kon geen connectie gemaakt worden #06';
+							Answers[4] = 'Er kon geen connectie gemaakt worden #07';
+							
+							$.connection.hub.stop(); 
+							
+							if(errorcode != 0) { 
+								alert(Answers[errorcode]);
+							} else {
+								setUserProfile(TempProperties.Firstname, TempProperties.Lastname, TempProperties.Email, returnguid);
+								 
+								/*window.setTimeout(function() {
+									$('#BtnHome1').click();
+									loadProgram();
+								}, 800);*/
+							} 
+						};
 					}
 					
 					
@@ -57,11 +105,18 @@
 						$('#welcometext').text('Welkom terug');
 						$('#hometext').html('<i class="fa fa-spinner fa-spin"></i> Bezig met ophalen nieuws items.');
 						$('#BtnRegisterNewUser').hide();
+							
+						$.connection.hub.start({jsonp: _isChrome}).done(function () {
+							Valid.server.registerClient(Person.Code); 
+							Valid.server.getWelcomeMessage(); 
+						});
 					} else {
 						$('#username').text('Nieuwe gebruiker');
 						$('#welcometext').text('Welkom');
 						$('#hometext').text('U heeft zich nog niet aangemeld met deze telefoon. Om uw gegevens beter te beveiligen kunt u zich aanmelden door hieronder op aanmelden te klikken.');
 						$('#BtnRegisterNewUser').show();
+						
+						$('#homefooter').hide();
 					}
 					
 					
@@ -114,15 +169,75 @@
 				return Person;
 			}
 		}
+		
+		function setUserProfile(Firstname, Lastname, Email, Code) { 
+			localStorage.setItem('Firstname', Firstname);
+			localStorage.setItem('Lastname', Lastname);
+			localStorage.setItem('Email', Email);
+			localStorage.setItem('Code', Code);
+			
+			Person.Firstname = Firstname;
+			Person.Lastname = Lastname;
+			Person.Email = Email;
+			Person.Code = Code;
+		}
+			
+		$('.registerform .checkbox').click(function() { 
+			if($(this).is(':checked')){
+				if($('.registerform .aanmeldcode').attr('_val') != null) { $('.registerform .aanmeldcode').val($('.registerform .aanmeldcode').attr('_val')); }  
+				$('.registerform .aanmeldcode').prop('disabled', false);
+			} else {
+				$('.registerform .aanmeldcode').attr('_val', $('.registerform .aanmeldcode').val());
+				$('.registerform .aanmeldcode').val('');
+				$('.registerform .aanmeldcode').prop('disabled', true);
+			}
+		});
 
 		$('#BtnRegisterForm').click(function(e){
 			e.preventDefault();
+			TempProperties = new Object();
+			TempProperties.Firstname = $.trim($('.registerform .firstname').val())
+			TempProperties.Lastname = $.trim($('.registerform .lastname').val())
+			TempProperties.Email = $.trim($('.registerform .email').val())
+			TempProperties.CheckBox = $('.registerform .checkbox').is(':checked');
+			TempProperties.AanmeldCode = $.trim($('.registerform .aanmeldcode').val())
 			
-			alert($('#aanmelden').find('.ui-content').scrollTop());
+				
+			if(!isValidEmailAddress(TempProperties.Email)) {  
+				alert("Alle velden moeten gevuld zijn!");
+				return;
+			}
+				
+			if(TempProperties.CheckBox) { 
+				if(isNaN(TempProperties.AanmeldCode) || TempProperties.AanmeldCode.length < 6){ 
+					alert("Alle velden moeten gevuld zijn!");
+					return;
+				} 
+				
+				if (TempProperties.Firstname === "" || TempProperties.Lastname === "" || TempProperties.Email === "" || TempProperties.AanmeldCode === "") { 
+					alert("Alle velden moeten gevuld zijn!");
+					return;
+				} 
+				
+				$.connection.hub.start({jsonp: _isChrome}).done(function () {
+					Valid.server.registerWithCode(TempProperties.Email, TempProperties.AanmeldCode); 
+				});
+			} else {
+				if (TempProperties.Firstname === "" || TempProperties.Lastname === "" || TempProperties.Email === "") { 
+					alert("Alle velden moeten gevuld zijn!");
+					return;
+				}
+				
+				$.connection.hub.start({jsonp: _isChrome}).done(function () {
+					Valid.server.registerWithoutCode(TempProperties.Firstname, TempProperties.Lastname, TempProperties.Email); 
+				});
+			}
 			
+			//alert($('#aanmelden').find('.ui-content').scrollTop());
+			//$(window).scrollTop()
 			
-			$('#aanmelden').find('[data-role=main]').scrollTop(0);
-			$('#waiting .bericht').text('Bezig met versturen van de gegevens'); 
+			$(window).scrollTop(0);
+			$('#waiting .bericht').text('Bezig met versturen van de gegevens');  
 			$('#waiting').show();
 			
 		});
@@ -194,7 +309,7 @@
 	<a href="#aanmelden" data-transition="slide" id="BtnRegisterNewUser" data-role="button" data-icon="arrow-r">Aanmelden</a>
   </div>    
    
-  <div data-role="footer" data-position="fixed">
+  <div data-role="footer" data-position="fixed" id="homefooter">
   	<div style="background-color: #d9a9ce;"><a href="#home" data-transition="slide">Begin<br /><i class="fa fa-home" style="font-size: 32px;"></i></a></div>	
   	<div style="background-color: #d29cc6;"><a href="#gegevens" data-transition="slide">Instellingen<br /><i class="fa fa-cogs" style="font-size: 32px;"></i></a></div>	
   	<div style="background-color: #c586ba;"><a href="#statistieken" data-transition="slide">Statistieken<br /><i class="fa fa-bar-chart" style="font-size: 32px;"></i></a></div>	
@@ -220,13 +335,13 @@
 	<p>Vul hieronder uw gegevens in en klik op versturen, bent u al eens eerder aangemeld geweest? Ga dan eerst naar <a href="http://www.recheck.nl/" target="_blank">www.recheck.nl</a> om een aanmeldcode op te vragen.</p>
 	<hr />
 		<div class="registerform">
-			<label>Voornaam:</label><input id="firstname1" type="text" maxlength="250" />
-			<label>Achternaam:</label><input id="lastname1" type="text" maxlength="250" />
-			<label>E-mail adres:</label><input id="email1" type="email" maxlength="250" />
+			<label>Voornaam:</label><input id="firstname1" class="firstname" type="text" maxlength="250" />
+			<label>Achternaam:</label><input id="lastname1" class="lastname" type="text" maxlength="250" />
+			<label>E-mail adres:</label><input id="email1" class="email" type="email" maxlength="250" />
 			<br />
 			<hr />
-			<label style="cursor: pointer"><input id="checkbox1" type="checkbox">Ik heb een aanmeldcode</label> 
-			<label>Aanmeldcode:</label><input id="aanmeldcode" maxlength="6" type="text" style="text-align: center;" />
+			<label style="cursor: pointer"><input id="checkbox1" class="checkbox" type="checkbox" checked>Ik heb een aanmeldcode</label> 
+			<label>Aanmeldcode:</label><input id="aanmeldcode" class="aanmeldcode" maxlength="6" type="text" style="text-align: center;" />
 		</div> <br />   
 	<a href="#" id="BtnRegisterForm" data-role="button" data-icon="check">Verstuur</a>
   </div> 
