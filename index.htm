@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Multi-page template</title>
+	<link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.5/css/themes/default/jquery.mobile-1.4.5.min.css"> 
+	<link rel="stylesheet" href="Untitled-2.css">
+	<link rel="shortcut icon" href="http://demos.jquerymobile.com/1.4.5/favicon.ico">
+	<script src="http://demos.jquerymobile.com/1.4.5/js/jquery.js"></script> 
+	<script src="http://demos.jquerymobile.com/1.4.5/js/jquery.mobile-1.4.5.min.js"></script>
+	<script type="text/javascript" src="scripts/jquery.signalR-2.1.2.min.js"></script> 
+	<script>
+  		$(function() {
+			var top = 211 * 10;
+			var timer = null;
+			var _questionid = null;
+			var _url = 'http://81.169.251.230/signalr';
+			var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+			var Valid = null;
+			
+			$.getScript(_url + "/hubs", function(){
+				$.connection.hub.url = _url; 
+    			Valid = $.connection.valid; 
+			
+     			$.connection.hub.stateChanged(connectionStateChanged);
+				
+				function connectSignalR() {
+					$.connection.hub.start({jsonp: _isChrome}).done(function () {
+						Valid.server.registerClient('21045995-bbd1-40f2-96c4-e928f06f16c8'); 
+						Valid.server.getWelcomeMessage(); 
+					});
+				}
+				connectSignalR();
+				
+				Valid.client.returnWelcomeMessage = function (response) {
+					$('#welcomemessage').html(response); 
+				}
+				
+				Valid.client.askClient = function (customername, question, questionid) {				
+					if(_questionid == null) {  
+						_questionid = questionid; 
+						toonquestion(customername, question);  
+						
+						navigator.vibrate([500, 200, 500]); 
+					}
+				};
+			});
+			
+			
+			$('#sliderbg').on("swiperight", "#sliderfg", function( event ) {
+				$('#sliderfg').animate({ 
+					left: '94px'
+				}, 250, function() { 
+					Valid.server.clientSendAnswer(_questionid, true);
+					setTimeout(function() {
+						hidequestion();
+					}, 600);
+				});
+			});
+			 
+			
+			function toonquestion(customername, question) {
+				top = 211 * 10; 
+				timer = setInterval(function() {
+					top -= 211;
+					if(top < 0) {  
+						hidequestion();
+					}
+					$('#timer').css('background-position', '0px -' + top + 'px');
+				}, 990);
+				
+				if(question != '') {
+					$('#question .content').html(question);
+				} else {
+					$('#question .content').html(customername + ' wilt toestemming om in te loggen...');
+				}
+				
+				$.mobile.changePage( "#two", { transition: "pop", reverse: false, changeHash: false });
+			}
+			
+			function hidequestion() {
+				$.mobile.changePage( "#one", { transition: "pop", reverse: true, changeHash: false }); 
+				window.clearInterval(timer);
+				timer = null; 
+				_questionid = null;
+				
+				setTimeout(function() {
+					top = 211 * 10; 
+					$('#timer').css('background-position', '0px -' + top + 'px');
+					$('#sliderfg').css({ left: '4px' });
+				}, 150);
+			}
+			
+			
+			function connectionStateChanged(state) { 
+				if(state.newState == 1) {
+					$('.state').css('background-position', '0px 0px');
+				}else{
+					$('.state').css('background-position', '0px -26px');
+				} 
+			};
+			
+			$('#openpopup').click(function(e){
+				e.preventDefault();
+				$.mobile.changePage( "#two", { transition: "pop", reverse: false, changeHash: false });
+				toonquestion('bollie');
+			});
+			   
+			$('.btn3').click(function(e){
+				e.preventDefault();
+				navigator.app.exitApp();
+			});
+			
+			document.addEventListener("backbutton", function(e){
+				alert('ss');
+			});
+		});
+	</script>
+</head>
+
+<body>
+
+
+<!-- Start of second page: #one -->
+<div data-role="page" id="one" data-theme="a">
+	<div data-role="header" data-theme="a">
+		<div class="state"></div>
+		<h1>RE:Check</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<span id="welcomemessage" class="welcomemessage">Connectie maken met server, &eacute;&eacute;n moment geduld...</span> 
+	</div><!-- /content -->
+	<div data-role="footer" data-theme="a">&nbsp;</div>
+	<table class="menu">
+		<tr>
+			<td style="text-align: center; padding-top: 4px;"><a href="#three" data-transition="slide" class="custombutton"><img src="images/btn1.png" /></a></td>
+			<td style="text-align: center; padding-top: 4px;"><a href="#three" data-transition="slide" class="custombutton"><img src="images/btn2.png" /></a></td>
+			<td style="text-align: center; padding-top: 4px;"><a href="#" class="custombutton btn3"><img src="images/btn3.png" /></a></td>
+		</tr>
+	</table><!-- /footer -->
+</div><!-- /page one -->
+
+
+
+<!-- Start of first page: #two -->
+<div data-role="page" id="two">
+	<div data-role="header" data-theme="a">
+		<div class="state"></div>
+		<h1>RE:Check</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<div id="question">
+			<div class="content">Bol.com wilt toestemming om in te loggen...</div>
+			<div id="timer" class="timer">&nbsp;</div>
+			
+			<div id="sliderbg" class="sliderbg">
+				<div id="sliderfg" class="sliderfg"></div>
+				<div class="slidertxt">Geef toegang</div>
+			</div> 
+		</div> 
+	</div><!-- /content -->
+	<div data-role="footer" data-theme="a" style="display: none">&nbsp;</div><!-- /footer -->
+</div><!-- /page two -->
+
+
+
+
+
+<!-- Start of third page: #three -->
+<div data-role="page" id="three" data-theme="a">
+
+	<div data-role="header" data-theme="a">
+		<div class="state"></div>
+		<h1>RE:Check</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<h2>Two</h2>
+		<p>I have an id of "two" on my page container. I'm the second page container in this multi-page template.</p>
+		<p>Notice that the theme is different for this page because we've added a few <code>data-theme</code> swatch assigments here to show off how flexible it is. You can add any content or widget to these pages, but we're keeping these simple.</p>
+		<p><a href="#one" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to page "one"</a></p>
+
+	</div><!-- /content -->
+
+	<div data-role="footer" data-theme="a">&nbsp;</div>
+	<table class="menu">
+		<tr>
+			<td style="text-align: center; padding-top: 4px; width: 50%;"><a href="#one" data-transition="slide" data-direction="reverse" class="custombutton"><img src="images/btn4.png" /></a></td> 
+			<td style="text-align: center; padding-top: 4px; width: 50%;"><a href="#" class="custombutton btn3"><img src="images/btn3.png" /></a></td>
+		</tr>
+	</table><!-- /footer -->
+</div><!-- /page three -->
+ 
+
+</body>
+</html>
